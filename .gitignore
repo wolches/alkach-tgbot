@@ -1,0 +1,24 @@
+# Prod bot props
+/natribot-tgbot-app/src/main/resources/natribot.properties
+
+# Compiled
+*/target/
+
+# Log file
+*.log
+
+# virtual machine crash logs
+hs_err_pid*
+
+# JetBrains
+.idea/
+*.iml
+out/
+*.iws
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# JAR
+*.jar

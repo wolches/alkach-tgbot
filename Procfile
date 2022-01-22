@@ -1,0 +1,1 @@
+worker: java -jar "./target/pesda-tgbot-app.jar"

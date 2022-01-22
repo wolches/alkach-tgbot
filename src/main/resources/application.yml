@@ -1,0 +1,17 @@
+natri:
+  bot:
+    name: ${PESDA_BOT_NAME}
+    token: ${PESDA_BOT_TOKEN}
+spring:
+  h2:
+    console.enabled: true
+  datasource:
+#    url: ${natri.db.url:jdbc:postgresql://localhost:5432/postgres}
+#    username: ${natri.db.username:postgres}
+#    password: ${natri.db.password:postgres}
+    driverClassName: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
