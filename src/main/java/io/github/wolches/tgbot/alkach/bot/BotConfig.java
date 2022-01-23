@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.pesda.bot;
+package io.github.wolches.tgbot.alkach.bot;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 @RequiredArgsConstructor
-@ConfigurationProperties(prefix = "pesda.bot")
+@ConfigurationProperties(prefix = "alkach.bot")
 public class BotConfig {
 
     private String token;

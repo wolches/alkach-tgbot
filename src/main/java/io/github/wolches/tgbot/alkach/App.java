@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.pesda;
+package io.github.wolches.tgbot.alkach;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

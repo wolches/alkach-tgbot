@@ -1,7 +1,7 @@
-package io.github.wolches.tgbot.pesda.repo;
+package io.github.wolches.tgbot.alkach.repo;
 
-import io.github.wolches.tgbot.pesda.domain.model.ChatUser;
-import io.github.wolches.tgbot.pesda.domain.model.User;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

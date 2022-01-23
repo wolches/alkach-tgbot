@@ -1,12 +1,13 @@
-package io.github.wolches.tgbot.pesda.service;
+package io.github.wolches.tgbot.alkach.service.update;
 
-import io.github.wolches.tgbot.pesda.domain.dto.ReplyDto;
-import io.github.wolches.tgbot.pesda.domain.model.Chat;
-import io.github.wolches.tgbot.pesda.domain.model.ChatUser;
-import io.github.wolches.tgbot.pesda.domain.model.User;
-import io.github.wolches.tgbot.pesda.repo.ChatRepository;
-import io.github.wolches.tgbot.pesda.repo.ChatUserRepository;
-import io.github.wolches.tgbot.pesda.repo.UserRepository;
+import io.github.wolches.tgbot.alkach.domain.dto.ReplyDto;
+import io.github.wolches.tgbot.alkach.domain.model.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.User;
+import io.github.wolches.tgbot.alkach.repo.ChatRepository;
+import io.github.wolches.tgbot.alkach.repo.ChatUserRepository;
+import io.github.wolches.tgbot.alkach.repo.UserRepository;
+import io.github.wolches.tgbot.alkach.service.message.MessageProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,37 +15,38 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MessageService {
+public class MessageUpdateService {
 
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
     private final ChatUserRepository chatUserRepository;
-    private final PesdaService pesdaService;
+    private final List<MessageProcessingService> services;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Optional<ReplyDto> processUpdate(Update update) {
-        if (update.hasMessage()) {
-            Message message = update.getMessage();
+        Message message = update.getMessage();
 
-            ChatUser chatUser = findChatUserOrNew(
-                    findChatByTgIdOrNewAndUpdate(message.getChat()),
-                    findUserByTgIdOrNewAndUpdate(message.getFrom())
-            );
+        ChatUser chatUser = findChatUserOrNew(
+                findChatByTgIdOrNewAndUpdate(message.getChat()),
+                findUserByTgIdOrNewAndUpdate(message.getFrom())
+        );
 
-            return pesdaService
-                    .pesda(message.getText())
-                    .map(replyText ->
-                            ReplyDto.builder()
-                                    .replyMessageId(message.getMessageId())
-                                    .chatId(chatUser.getChat().getTelegramId().toString())
-                                    .text(replyText)
-                                    .build());
-        }
-        return Optional.empty();
+        return services
+                .stream()
+                .filter(service -> service.isApplicable(message))
+                .findAny()
+                .map(service -> service.processMessage(message))
+                .map(replyText ->
+                        ReplyDto.builder()
+                                .replyMessageId(message.getMessageId())
+                                .chatId(chatUser.getChat().getTelegramId().toString())
+                                .text(replyText)
+                                .build());
     }
 
     @Transactional(propagation = Propagation.MANDATORY)

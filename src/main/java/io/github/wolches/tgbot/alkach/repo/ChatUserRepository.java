@@ -1,6 +1,6 @@
-package io.github.wolches.tgbot.pesda.repo;
+package io.github.wolches.tgbot.alkach.repo;
 
-import io.github.wolches.tgbot.pesda.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatUserRepository extends JpaRepository<ChatUser, Long> {

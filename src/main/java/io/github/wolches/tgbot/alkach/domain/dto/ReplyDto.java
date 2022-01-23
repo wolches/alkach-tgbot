@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.pesda.domain.dto;
+package io.github.wolches.tgbot.alkach.domain.dto;
 
 import lombok.Builder;
 import lombok.Data;

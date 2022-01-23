@@ -1,7 +1,8 @@
-package io.github.wolches.tgbot.pesda.bot;
+package io.github.wolches.tgbot.alkach.bot;
 
-import io.github.wolches.tgbot.pesda.domain.dto.ReplyDto;
-import io.github.wolches.tgbot.pesda.service.MessageService;
+
+import io.github.wolches.tgbot.alkach.domain.dto.ReplyDto;
+import io.github.wolches.tgbot.alkach.service.update.MessageUpdateService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,14 +15,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.Optional;
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 public class BotInstance extends TelegramLongPollingBot {
 
-    private final String botToken;
-    private final String botUsername;
+    protected final String botToken;
+    protected final String botUsername;
 
     @Setter(onMethod_={@Autowired})
-    private MessageService messageService;
+    private MessageUpdateService messageService;
 
     @Override
     public void onUpdateReceived(Update update) {

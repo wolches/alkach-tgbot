@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.pesda.domain.model;
+package io.github.wolches.tgbot.alkach.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

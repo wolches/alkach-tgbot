@@ -1,7 +1,7 @@
-natri:
+alkach:
   bot:
-    name: ${PESDA_BOT_NAME}
-    token: ${PESDA_BOT_TOKEN}
+    name: ${ALKACH_BOT_NAME}
+    token: ${ALKACH_BOT_TOKEN}
 spring:
   h2:
     console.enabled: true
