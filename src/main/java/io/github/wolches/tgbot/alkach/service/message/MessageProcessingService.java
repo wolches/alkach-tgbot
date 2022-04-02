@@ -5,7 +5,11 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public interface MessageProcessingService {
 
     default boolean isApplicable(Message message) {
-        return checkIsNotCommand(message) && isApplicableInternal(message);
+        return  message != null &&
+                message.getText() != null &&
+                !message.getText().equals("") &&
+                checkIsNotCommand(message) &&
+                isApplicableInternal(message);
     }
 
     default boolean isApplicableInternal(Message message) {
