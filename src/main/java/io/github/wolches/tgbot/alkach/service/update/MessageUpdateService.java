@@ -61,6 +61,7 @@ public class MessageUpdateService {
                     userRepository.addChatUserAndSave(user, cu);
                     return cu;
                 });
+        chatUser.setActive(true);
         return chatUserRepository.incrementMessageCountAndSave(chatUser);
     }
 

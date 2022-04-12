@@ -17,6 +17,7 @@ _Written and designed by [Wolches][wolch]._
 * Not very accurate `/ping` command
 * Nice coin toss `/coin` command
 * WIP: shippering
+* WIP: leaved chat users' exclusion
 * **TO BE CONTINUED**
 
 [^1]: Friends' chat self-name

@@ -38,6 +38,9 @@ public class ChatUser {
     @Column(name = "msg_count")
     private Long messageCount;
 
+    @Column(name = "active")
+    private Boolean active;
+
     public void incrementMessageCount() {
         messageCount++;
     }
