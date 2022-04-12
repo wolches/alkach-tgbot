@@ -19,11 +19,6 @@ public class CoinCommandService implements CommandProcessingService {
     private final RandomService randomService;
 
     @Override
-    public boolean isApplicableInternal(Message message, Chat chat, ChatUser user) {
-        return message.getText().equalsIgnoreCase(COIN_COMMAND);
-    }
-
-    @Override
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
         return String.format(
                COIN_TEXT, randomService.getRandom().nextBoolean() ?

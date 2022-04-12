@@ -16,11 +16,6 @@ public class PingCommandService implements CommandProcessingService {
     private static final String PING_TEXT = "Not very accurate ping: %d second(s).";
 
     @Override
-    public boolean isApplicableInternal(Message message, Chat chat, ChatUser user) {
-        return message.getText().equalsIgnoreCase(PING_COMMAND);
-    }
-
-    @Override
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
         long ping = Instant.now().getEpochSecond() - message.getDate();
         return String.format(PING_TEXT, ping);

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -37,7 +37,7 @@ public class Chat {
     private Long messageCount;
 
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
-    private Collection<ChatUser> chatUsers;
+    private List<ChatUser> chatUsers;
 
     @Column(name = "chat_name")
     private String chatName;

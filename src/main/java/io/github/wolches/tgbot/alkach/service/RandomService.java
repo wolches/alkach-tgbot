@@ -1,8 +1,6 @@
 package io.github.wolches.tgbot.alkach.service;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,14 +13,14 @@ public class RandomService {
     private AtomicLong seed;
 
     @Getter
-    private Random random;
+    private volatile Random random;
 
     public RandomService() {
         long unixTime = new Random(Instant.now().toEpochMilli()).nextLong();
         setSeed(unixTime);
     }
 
-    public synchronized void setSeed(long newSeed) {
+    public void setSeed(long newSeed) {
         if (seed == null) {
             seed = new AtomicLong(0L);
         }
