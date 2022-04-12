@@ -14,8 +14,9 @@ _Written and designed by [Wolches][wolch]._
 
 * Answering "Пизда" for any "Да" in chat
 * Answering "Пидора ответ" for any "Нет" in chat
-* Very inaccurate `/ping` command
+* Not very accurate `/ping` command
 * Nice coin toss `/coin` command
+* WIP: shippering
 * **TO BE CONTINUED**
 
 [^1]: Friends' chat self-name

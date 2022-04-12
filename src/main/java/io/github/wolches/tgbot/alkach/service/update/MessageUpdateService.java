@@ -38,9 +38,9 @@ public class MessageUpdateService {
 
         return services
                 .stream()
-                .filter(service -> service.isApplicable(message))
+                .filter(service -> service.isApplicable(message, chatUser.getChat(), chatUser))
                 .findAny()
-                .map(service -> service.processMessage(message))
+                .map(service -> service.processMessage(message, chatUser.getChat(), chatUser))
                 .map(replyText ->
                         ReplyDto.builder()
                                 .replyMessageId(message.getMessageId())

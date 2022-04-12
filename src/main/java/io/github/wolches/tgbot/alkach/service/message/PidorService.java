@@ -1,5 +1,7 @@
 package io.github.wolches.tgbot.alkach.service.message;
 
+import io.github.wolches.tgbot.alkach.domain.model.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,13 +16,13 @@ public class PidorService implements MessageProcessingService {
     private static final String PIDORA_OTVET = "Пидора ответ.";
 
     @Override
-    public boolean isApplicableInternal(Message message) {
+    public boolean isApplicableInternal(Message message, Chat chat, ChatUser user) {
         return isNo(message.getText());
     }
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
-    public String processMessageInternal(Message message) {
+    public String processMessageInternal(Message message, Chat chat, ChatUser user) {
         return PIDORA_OTVET;
     }
 

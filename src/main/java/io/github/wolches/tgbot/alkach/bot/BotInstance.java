@@ -3,6 +3,7 @@ package io.github.wolches.tgbot.alkach.bot;
 
 import io.github.wolches.tgbot.alkach.domain.dto.ReplyDto;
 import io.github.wolches.tgbot.alkach.service.update.MessageUpdateService;
+import io.github.wolches.tgbot.alkach.service.update.UpdateService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -23,24 +24,24 @@ public class BotInstance extends TelegramLongPollingBot {
     protected final String botUsername;
 
     @Setter(onMethod_={@Autowired})
-    private MessageUpdateService messageService;
+    private UpdateService updateService;
 
     @Override
     public void onUpdateReceived(Update update) {
-        Optional<ReplyDto> reply = messageService.processUpdate(update);
-        reply.ifPresent(
-                r -> {
-                    try {
-                        SendMessage msg = new SendMessage();
-                        msg.setChatId(r.getChatId());
-                        msg.setParseMode("Markdown");
-                        msg.setReplyToMessageId(r.getReplyMessageId());
-                        msg.setText(r.getText());
-                        execute(msg);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        Optional<ReplyDto> reply = updateService.processUpdate(update);
+        reply.ifPresent(r ->  sendMessage(r.getChatId(), r.getReplyMessageId(), r.getText()));
+    }
+
+    private void sendMessage(String chatId, Integer replyMessageId, String text) {
+        try {
+            SendMessage msg = new SendMessage();
+            msg.setChatId(chatId);
+            msg.setParseMode("Markdown");
+            msg.setReplyToMessageId(replyMessageId);
+            msg.setText(text);
+            execute(msg);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 }
