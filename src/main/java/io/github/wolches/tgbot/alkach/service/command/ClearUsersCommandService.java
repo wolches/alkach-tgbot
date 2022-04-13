@@ -56,6 +56,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
     private List<ChatUser> getChatUsersToClear(Chat chat) {
         return chat
                 .getChatUsers().stream()
+                .filter(ChatUser::getActive)
                 .filter(cu -> !bot.isChatUserActive(chat.getTelegramId(), cu.getUser().getTelegramId()))
                 .collect(Collectors.toList());
     }
