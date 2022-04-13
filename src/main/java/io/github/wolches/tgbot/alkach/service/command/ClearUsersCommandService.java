@@ -1,10 +1,14 @@
 package io.github.wolches.tgbot.alkach.service.command;
 
+import io.github.wolches.tgbot.alkach.bot.BotInstance;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import io.github.wolches.tgbot.alkach.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.service.RandomService;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -19,19 +23,29 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ClearUsersCommandService implements CommandProcessingService {
 
-    private static final String CLEAR_COMMAND = "/clear_users";
+    private static final String CLEAR_COMMAND = "/update_chat_users";
     private static final String CLEAR_TEXT =    "Данные о пользователях чата обновлены! \r\n" +
-                                                "Список пользователей, чьи данные были очищены: \r\n" +
+                                                "Список пользователей, чьи данные были заморожены: \r\n" +
                                                 "%s";
 
     private final ChatUserRepository chatUserRepository;
 
+    @Setter(onMethod_ = {@Autowired})
+    private BotInstance bot;
+
     @Override
+    @SneakyThrows
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
-        List<ChatUser> usersToClear = getChatUsersToClear(chat);
-        usersToClear.forEach(cu -> cu.setActive(false));
-        chatUserRepository.saveAll(usersToClear);
-        return String.format(CLEAR_TEXT, listChatUsers(usersToClear));
+        if (bot
+                .getChatAdminsIds(chat.getTelegramId())
+                .contains(user.getUser().getTelegramId())
+        ) {
+            List<ChatUser> usersToClear = getChatUsersToClear(chat);
+            usersToClear.forEach(cu -> cu.setActive(false));
+            chatUserRepository.saveAll(usersToClear);
+            return String.format(CLEAR_TEXT, listChatUsers(usersToClear));
+        }
+        return null;
     }
 
     @Override
@@ -40,8 +54,10 @@ public class ClearUsersCommandService implements CommandProcessingService {
     }
 
     private List<ChatUser> getChatUsersToClear(Chat chat) {
-        //TODO
-        return new ArrayList<>();
+        return chat
+                .getChatUsers().stream()
+                .filter(cu -> !bot.isChatUserActive(chat.getTelegramId(), cu.getUser().getTelegramId()))
+                .collect(Collectors.toList());
     }
 
     private String listChatUsers(List<ChatUser> toClear) {
