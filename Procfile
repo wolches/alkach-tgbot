@@ -1,1 +1,1 @@
-worker: java -jar "./target/pesda-tgbot-app.jar"
+worker: java -jar "./target/alkobot-app.jar"

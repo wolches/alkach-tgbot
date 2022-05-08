@@ -1,4 +1,8 @@
 alkach:
+  db:
+    url: jdbc:postgresql://localhost:5432/alkobot
+    username: alkobot
+    password: Qwerty1337
   bot:
     name: ${ALKACH_BOT_NAME}
     token: ${ALKACH_BOT_TOKEN}
@@ -6,9 +10,9 @@ spring:
   h2:
     console.enabled: true
   datasource:
-#    url: ${natri.db.url:jdbc:postgresql://localhost:5432/postgres}
-#    username: ${natri.db.username:postgres}
-#    password: ${natri.db.password:postgres}
+    url: ${alkach.db.url:jdbc:postgresql://localhost:5432/postgres}
+    username: ${alkach.db.username:postgres}
+    password: ${alkach.db.password:postgres}
     driverClassName: org.postgresql.Driver
     driver-class-name: org.postgresql.Driver
   jpa:

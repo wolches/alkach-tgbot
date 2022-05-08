@@ -18,6 +18,7 @@ _Written and designed by [Wolches][wolch]._
 * Nice coin toss `/coin` command
 * WIP: shippering
 * WIP: leaved chat users' exclusion
+* WIP: dockerfile for a non-heroku hosting
 * **TO BE CONTINUED**
 
 [^1]: Friends' chat self-name
