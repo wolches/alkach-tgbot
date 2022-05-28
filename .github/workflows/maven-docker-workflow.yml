@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Maven build and Docker Image CI
 
 on:
   push:
@@ -22,6 +22,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build application with Maven
-      run: mvn clean package
+      run: mvn clean package -DskipTests
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag wolches-alkobot:$(date +%s)
