@@ -3,8 +3,7 @@ package io.github.wolches.tgbot.alkach.service.command;
 import io.github.wolches.tgbot.alkach.bot.BotInstance;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
-import io.github.wolches.tgbot.alkach.repo.ChatUserRepository;
-import io.github.wolches.tgbot.alkach.service.RandomService;
+import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -12,12 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor

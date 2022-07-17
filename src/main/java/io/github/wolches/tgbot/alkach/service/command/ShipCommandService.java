@@ -1,12 +1,15 @@
 package io.github.wolches.tgbot.alkach.service.command;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.service.RandomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -14,26 +17,44 @@ import java.util.List;
 public class ShipCommandService implements CommandProcessingService {
 
     private static final String SHIP_COMMAND = "/ship";
-    private static final String SHIP_TEXT_CHOOSING = "Шип-шип тестим: %s и %s (WIP)";
-    private static final String SHIP_TEXT_RESULT = "Шип-шип тестим: %s и %s (WIP)";
-    private static final String USER_LINK_FORMAT = "[%s](tg://user?id=%d)"; //TODO: добавить повсюду приписку формат
+    private static final String SHIP_TEXT_CHOOSING = "**Шип-шип...** \nПоиск новой пары дня: \n%s и %s ";
+    private static final String SHIP_TEXT_CHOOSED = "**Шип-шип...** \nПара дня на сегодня уже есть: \n%s и %s ";
+    private static final String USER_LINK_FORMAT = "[%s](tg://user?id=%d)";
 
     private final RandomService randomService;
+    private final ChatUserRepository chatUserRepository;
 
     @Override
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
-        String userLinkA = getUserLink(chat);
-        String userLinkB = getUserLink(chat);
-        return String.format(SHIP_TEXT_RESULT, userLinkA, userLinkB);
+        return shipNewPairForChat(chat);
     }
 
-    private String getUserLink(Chat chat) {
-        List<ChatUser> chatUsers = chat.getChatUsers();
+    private String shipNewPairForChat(Chat chat) {
+        ChatUser chatUserA = getRandomChatUser(chat);
+        ChatUser chatUserB = getRandomChatUser(chat);
+
+        ChatShippering.builder()
+                .chatId(chat)
+                .shipperedA(chatUserA)
+                .shipperedB(chatUserB)
+                .shipperedAt(OffsetDateTime.now())
+                .build();
+
+
+
+
+        return String.format(SHIP_TEXT_CHOOSING, getUserLink(chatUserA), getUserLink(chatUserA));
+    }
+
+    private ChatUser getRandomChatUser(Chat chat) {
+        List<ChatUser> chatUsers = chat.getActiveChatUsers();
         int chatUserId = randomService.getRandom().nextInt(chatUsers.size());
+        return chatUsers.get(chatUserId);
+    }
 
-        String name = chatUsers.get(chatUserId).getUser().getLastUsername();
-        Long id = chatUsers.get(chatUserId).getUser().getTelegramId();
-
+    private String getUserLink(ChatUser chatUser) {
+        String name = chatUser.getUser().getLastUsername();
+        Long id = chatUser.getUser().getTelegramId();
         return String.format(USER_LINK_FORMAT, name, id);
     }
 

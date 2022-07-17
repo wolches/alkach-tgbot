@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -44,6 +45,12 @@ public class Chat {
 
     public void incrementMessageCount() {
         messageCount++;
+    }
+
+    public List<ChatUser> getActiveChatUsers() {
+        return chatUsers.stream()
+                .filter(ChatUser::getActive)
+                .collect(Collectors.toList());
     }
 
     public static Chat createNew(long telegramId) {
