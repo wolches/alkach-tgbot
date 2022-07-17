@@ -3,6 +3,7 @@ package io.github.wolches.tgbot.alkach.service.command;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.persistance.ShipperingDao;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.service.RandomService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class ShipCommandService implements CommandProcessingService {
     private static final String USER_LINK_FORMAT = "[%s](tg://user?id=%d)";
 
     private final RandomService randomService;
-    private final ChatUserRepository chatUserRepository;
+    private final ShipperingDao shipperingDao;
 
     @Override
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
