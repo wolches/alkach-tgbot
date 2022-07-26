@@ -2,10 +2,13 @@ package io.github.wolches.tgbot.alkach.persistance;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUserShippering;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -36,5 +39,32 @@ public class ShipperingDao {
                 .max(Comparator.comparing(ChatShippering::getShipperedAt));
 
         return last;
+    }
+
+    public ChatShippering saveChatShippering(ChatShippering chatShippering) {
+        entityManager.persist(chatShippering);
+        return chatShippering;
+    }
+
+    public Optional<ChatUserShippering> findChatUserShippering(ChatUser chatUser) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ChatUserShippering> criteriaQuery = criteriaBuilder.createQuery(ChatUserShippering.class);
+
+        Root<ChatUserShippering> shippering = criteriaQuery.from(ChatUserShippering.class);
+        Predicate shipperingByChat = criteriaBuilder.equal(shippering.get("chatUser"), chatUser);
+        criteriaQuery.where(shipperingByChat);
+
+        TypedQuery<ChatUserShippering> query = entityManager.createQuery(criteriaQuery);
+
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    public ChatUserShippering saveChatUserShippering(ChatUserShippering chatUserShippering) {
+        entityManager.persist(chatUserShippering);
+        return chatUserShippering;
     }
 }

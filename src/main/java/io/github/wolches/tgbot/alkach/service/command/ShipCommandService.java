@@ -5,7 +5,6 @@ import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUserShippering;
 import io.github.wolches.tgbot.alkach.persistance.ShipperingDao;
-import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.service.RandomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,24 +37,33 @@ public class ShipCommandService implements CommandProcessingService {
                 });
     }
 
-    private ChatShippering shipNewPairForChat(Chat chat) { //TODO
-        ChatShippering chatShippering = ChatShippering.builder()
-                .chat(chat)
-                .shipperedA(getRandomChatUser(chat))
-                .shipperedB(getRandomChatUser(chat))
-                .shipperedAt(OffsetDateTime.now())
-                .build();
+    private ChatShippering shipNewPairForChat(Chat chat) {
+        ChatShippering chatShippering = shipperingDao.saveChatShippering(
+                ChatShippering.builder()
+                        .chat(chat)
+                        .shipperedA(getRandomChatUser(chat))
+                        .shipperedB(getRandomChatUser(chat))
+                        .shipperedAt(OffsetDateTime.now())
+                        .build()
+        );
 
-        ChatUserShippering.builder()
-                .chatUser(chatShippering.getShipperedA())
-                .shippedCount(1L)
-                .build();
+        incrementShippedCounterForChatUser(chatShippering.getShipperedA());
+        incrementShippedCounterForChatUser(chatShippering.getShipperedB());
 
-        ChatUserShippering.builder()
-                .chatUser(chatShippering.getShipperedB())
-                .shippedCount(1L)
-                .build();
         return chatShippering;
+    }
+
+    private void incrementShippedCounterForChatUser(ChatUser chatUser) {
+        ChatUserShippering chatUserShippering = shipperingDao
+                .findChatUserShippering(chatUser)
+                .orElse(
+                        ChatUserShippering.builder()
+                                .chatUser(chatUser)
+                                .shippedCount(0L)
+                                .build()
+                );
+        chatUserShippering.setShippedCount(chatUserShippering.getShippedCount() + 1L);
+        shipperingDao.saveChatUserShippering(chatUserShippering);
     }
 
     private ChatUser getRandomChatUser(Chat chat) {
