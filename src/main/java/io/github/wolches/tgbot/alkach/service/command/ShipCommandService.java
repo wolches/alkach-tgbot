@@ -3,6 +3,7 @@ package io.github.wolches.tgbot.alkach.service.command;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUserShippering;
 import io.github.wolches.tgbot.alkach.persistance.ShipperingDao;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.service.RandomService;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,24 +29,34 @@ public class ShipCommandService implements CommandProcessingService {
 
     @Override
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
-        return shipNewPairForChat(chat);
+        return shipperingDao
+                .findLastChatShippering(chat)
+                .map(csh -> csh.getShipperedAt().plusDays(1).isAfter(OffsetDateTime.now()) ? csh : null)
+                .map(csh -> String.format(SHIP_TEXT_CHOOSED, getUserLink(csh.getShipperedA()), getUserLink(csh.getShipperedB())))
+                .orElseGet(() -> {
+                    ChatShippering csh = shipNewPairForChat(chat);
+                    return String.format(SHIP_TEXT_CHOOSING, getUserLink(csh.getShipperedA()), getUserLink(csh.getShipperedB()));
+                });
     }
 
-    private String shipNewPairForChat(Chat chat) {
-        ChatUser chatUserA = getRandomChatUser(chat);
-        ChatUser chatUserB = getRandomChatUser(chat);
-
-        ChatShippering.builder()
-                .chatId(chat)
-                .shipperedA(chatUserA)
-                .shipperedB(chatUserB)
+    private ChatShippering shipNewPairForChat(Chat chat) { //TODO
+        ChatShippering chatShippering = ChatShippering.builder()
+                .chat(chat)
+                .shipperedA(getRandomChatUser(chat))
+                .shipperedB(getRandomChatUser(chat))
                 .shipperedAt(OffsetDateTime.now())
                 .build();
 
+        ChatUserShippering.builder()
+                .chatUser(chatShippering.getShipperedA())
+                .shippedCount(1L)
+                .build();
 
-
-
-        return String.format(SHIP_TEXT_CHOOSING, getUserLink(chatUserA), getUserLink(chatUserA));
+        ChatUserShippering.builder()
+                .chatUser(chatShippering.getShipperedB())
+                .shippedCount(1L)
+                .build();
+        return chatShippering;
     }
 
     private ChatUser getRandomChatUser(Chat chat) {

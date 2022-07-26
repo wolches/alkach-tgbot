@@ -23,7 +23,7 @@ public class ChatShippering {
 
     @ManyToOne
     @JoinColumn(name = "chat_id")
-    private Chat chatId;
+    private Chat chat;
 
     @ManyToOne
     @JoinColumn(name = "shippered_a_chat_user_id")
