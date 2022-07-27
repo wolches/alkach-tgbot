@@ -3,7 +3,7 @@ package io.github.wolches.tgbot.alkach.service;
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import lombok.RequiredArgsConstructor;
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
