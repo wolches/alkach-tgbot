@@ -4,6 +4,7 @@ import io.github.wolches.tgbot.alkach.bot.BotInstance;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
+import io.github.wolches.tgbot.alkach.service.TextService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -24,6 +25,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
                                                 "%s";
 
     private final ChatUserRepository chatUserRepository;
+    private final TextService textService;
 
     @Setter(onMethod_ = {@Autowired})
     private BotInstance bot;
@@ -57,14 +59,6 @@ public class ClearUsersCommandService implements CommandProcessingService {
     }
 
     private String listChatUsers(List<ChatUser> toClear) {
-        StringBuilder userListBuilder = new StringBuilder();
-        for (int i = 0, size = toClear.size(); i < size; i++) {
-            userListBuilder
-                    .append(i + 1)
-                    .append(". ")
-                    .append(toClear.get(i).getUser().getLastUsername())
-                    .append(i + 1 == size ? "" : " \r\n");
-        }
-        return userListBuilder.toString();
+        return textService.getListText(toClear, cu -> cu.getUser().getLastUsername());
     }
 }

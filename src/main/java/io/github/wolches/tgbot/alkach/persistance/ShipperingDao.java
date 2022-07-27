@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -39,6 +40,20 @@ public class ShipperingDao {
                 .max(Comparator.comparing(ChatShippering::getShipperedAt));
 
         return last;
+    }
+
+    public List<ChatShippering> findChatShipperingByChatUser(ChatUser chatUser) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ChatShippering> criteriaQuery = criteriaBuilder.createQuery(ChatShippering.class);
+
+        Root<ChatShippering> shippering = criteriaQuery.from(ChatShippering.class);
+        Predicate shipperingByA = criteriaBuilder.equal(shippering.get("shipperedA"), chatUser);
+        Predicate shipperingByB = criteriaBuilder.equal(shippering.get("shipperedB"), chatUser);
+        Predicate shipperingByUser = criteriaBuilder.or(shipperingByA, shipperingByB);
+        criteriaQuery.where(shipperingByUser);
+
+        TypedQuery<ChatShippering> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     public ChatShippering saveChatShippering(ChatShippering chatShippering) {
