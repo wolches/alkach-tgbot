@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.command;
+package io.github.wolches.tgbot.alkach.service.command.ship;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
@@ -6,6 +6,7 @@ import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUserShippering;
 import io.github.wolches.tgbot.alkach.persistance.ShipperingDao;
 import io.github.wolches.tgbot.alkach.service.TextService;
+import io.github.wolches.tgbot.alkach.service.command.CommandProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,9 +18,9 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MyShipStatCommandService implements CommandProcessingService {
+public class ShipMyStatCommandService implements CommandProcessingService {
 
-    private static final String SHIP_STAT_COMMAND = "/my_ship_stat";
+    private static final String SHIP_STAT_COMMAND = "/ship_my_stat";
     private static final String SHIP_STAT_TEXT =
             "**Шип-шип...**\r\n " +
             "**Ваша статистика:** %s \r\n" +
@@ -41,16 +42,7 @@ public class MyShipStatCommandService implements CommandProcessingService {
                 SHIP_STAT_TEXT,
                 textService.getUserLink(user),
                 shipCount.map(ChatUserShippering::getShippedCount).orElse(0L),
-                textService.getListText(ships.subList(0, ships.size() > 4 ? 5 : ships.size()), this::getShipperingHistoryRow)
-        );
-    }
-
-    private String getShipperingHistoryRow(ChatShippering chatShippering) {
-        return String.format(
-                SHIP_HISTORY_ROW_FORMAT,
-                textService.getUserLink(chatShippering.getShipperedA()),
-                textService.getUserLink(chatShippering.getShipperedB()),
-                chatShippering.getShipperedAt().format(DateTimeFormatter.ISO_LOCAL_DATE)
+                textService.getListText(ships.subList(0, ships.size() > 4 ? 5 : ships.size()), textService::getShipperingHistoryRow)
         );
     }
 

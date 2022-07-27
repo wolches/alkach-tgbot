@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.command;
+package io.github.wolches.tgbot.alkach.service.command.ship;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
@@ -7,6 +7,7 @@ import io.github.wolches.tgbot.alkach.domain.model.ChatUserShippering;
 import io.github.wolches.tgbot.alkach.persistance.ShipperingDao;
 import io.github.wolches.tgbot.alkach.service.RandomService;
 import io.github.wolches.tgbot.alkach.service.TextService;
+import io.github.wolches.tgbot.alkach.service.command.CommandProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,8 +20,14 @@ import java.util.List;
 public class ShipCommandService implements CommandProcessingService {
 
     private static final String SHIP_COMMAND = "/ship";
-    private static final String SHIP_TEXT_CHOOSING = "**Шип-шип...** \nПоиск новой пары дня: \n%s и %s ";
-    private static final String SHIP_TEXT_CHOOSED = "**Шип-шип...** \nПара дня на сегодня уже есть: \n%s и %s ";
+    private static final String SHIP_TEXT_CHOOSING =
+            "**Шип-шип...** \r\n" +
+            "**Поиск новой пары дня:** \r\n" +
+            "%s и %s ";
+    private static final String SHIP_TEXT_CHOOSED =
+            "**Шип-шип...** \r\n" +
+            "**Пара дня на сегодня уже есть:** \r\n" +
+            "%s и %s ";
 
     private final RandomService randomService;
     private final ShipperingDao shipperingDao;

@@ -23,8 +23,6 @@ public class ShipperingDao {
     @PersistenceContext
     private final EntityManager entityManager;
 
-    //TODO
-
     public Optional<ChatShippering> findLastChatShippering(Chat chat) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<ChatShippering> criteriaQuery = criteriaBuilder.createQuery(ChatShippering.class);
@@ -33,13 +31,24 @@ public class ShipperingDao {
         Predicate shipperingByChat = criteriaBuilder.equal(shippering.get("chat"), chat);
         criteriaQuery.where(shipperingByChat);
 
-        TypedQuery<ChatShippering> query = entityManager.createQuery(criteriaQuery);
-        Optional<ChatShippering> last = query
+        return entityManager
+                .createQuery(criteriaQuery)
                 .getResultList()
                 .stream()
                 .max(Comparator.comparing(ChatShippering::getShipperedAt));
+    }
 
-        return last;
+    public List<ChatShippering> findChatShippering(Chat chat) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ChatShippering> criteriaQuery = criteriaBuilder.createQuery(ChatShippering.class);
+
+        Root<ChatShippering> shippering = criteriaQuery.from(ChatShippering.class);
+        Predicate shipperingByChat = criteriaBuilder.equal(shippering.get("chat"), chat);
+        criteriaQuery.where(shipperingByChat);
+
+        return entityManager
+                .createQuery(criteriaQuery)
+                .getResultList();
     }
 
     public List<ChatShippering> findChatShipperingByChatUser(ChatUser chatUser) {

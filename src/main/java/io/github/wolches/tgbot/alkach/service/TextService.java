@@ -1,9 +1,11 @@
 package io.github.wolches.tgbot.alkach.service;
 
+import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import lombok.RequiredArgsConstructor;
 import org.jvnet.hk2.annotations.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Function;
 
@@ -12,6 +14,7 @@ import java.util.function.Function;
 public class TextService {
 
     private static final String USER_LINK_FORMAT = "[%s](tg://user?id=%d)";
+    private static final String SHIP_HISTORY_ROW_FORMAT = "%s и %s : %s";
 
     public String getUserLink(ChatUser chatUser) {
         String name = chatUser.getUser().getLastUsername();
@@ -29,5 +32,14 @@ public class TextService {
                     .append(i + 1 == size ? "" : " \r\n");
         }
         return listBuilder.toString();
+    }
+
+    public String getShipperingHistoryRow(ChatShippering chatShippering) {
+        return String.format(
+                SHIP_HISTORY_ROW_FORMAT,
+                getUserLink(chatShippering.getShipperedA()),
+                getUserLink(chatShippering.getShipperedB()),
+                chatShippering.getShipperedAt().format(DateTimeFormatter.ISO_LOCAL_DATE)
+        );
     }
 }
