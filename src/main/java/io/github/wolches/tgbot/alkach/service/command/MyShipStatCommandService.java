@@ -17,9 +17,9 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ShipStatCommandService implements CommandProcessingService {
+public class MyShipStatCommandService implements CommandProcessingService {
 
-    private static final String SHIP_STAT_COMMAND = "/ship_stat";
+    private static final String SHIP_STAT_COMMAND = "/my_ship_stat";
     private static final String SHIP_STAT_TEXT =
             "**Шип-шип...**\r\n " +
             "**Ваша статистика:** %s \r\n" +
