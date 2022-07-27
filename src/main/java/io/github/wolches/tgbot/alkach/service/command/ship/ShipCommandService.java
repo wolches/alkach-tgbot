@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -46,18 +48,21 @@ public class ShipCommandService implements CommandProcessingService {
     }
 
     private ChatShippering shipNewPairForChat(Chat chat) {
+        ChatUser userA = getRandomChatUser(chat);
+        ChatUser userB = getRandomChatUser(chat, userA);
+
         ChatShippering chatShippering = shipperingDao
                 .saveChatShippering(
                         ChatShippering.builder()
                                 .chat(chat)
-                                .shipperedA(getRandomChatUser(chat))
-                                .shipperedB(getRandomChatUser(chat))
+                                .shipperedA(userA)
+                                .shipperedB(userB)
                                 .shipperedAt(OffsetDateTime.now())
                                 .build()
         );
 
-        incrementShippedCounterForChatUser(chatShippering.getShipperedA());
-        incrementShippedCounterForChatUser(chatShippering.getShipperedB());
+        incrementShippedCounterForChatUser(userA);
+        incrementShippedCounterForChatUser(userB);
 
         return chatShippering;
     }
@@ -77,6 +82,15 @@ public class ShipCommandService implements CommandProcessingService {
 
     private ChatUser getRandomChatUser(Chat chat) {
         List<ChatUser> chatUsers = chat.getActiveChatUsers();
+        int chatUserId = randomService.getRandom().nextInt(chatUsers.size());
+        return chatUsers.get(chatUserId);
+    }
+
+    private ChatUser getRandomChatUser(Chat chat, ChatUser ... exclude) {
+        List<ChatUser> chatUsers = chat.getActiveChatUsers();
+        for (ChatUser user : exclude) {
+            chatUsers.remove(user);
+        }
         int chatUserId = randomService.getRandom().nextInt(chatUsers.size());
         return chatUsers.get(chatUserId);
     }
