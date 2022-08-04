@@ -12,14 +12,4 @@ public interface ImageProcessingService extends MessageProcessingService {
                 message.hasPhoto() &&
                 isApplicableInternal(message, chat, user);
     }
-
-    default boolean isApplicableInternal(Message message, Chat chat, ChatUser user) {
-        return false;
-    }
-
-    default String processMessage(Message message, Chat chat, ChatUser user) {
-        return isApplicable(message, chat, user) ? processMessageInternal(message, chat, user) : null;
-    }
-
-    String processMessageInternal(Message message, Chat chat, ChatUser user);
 }

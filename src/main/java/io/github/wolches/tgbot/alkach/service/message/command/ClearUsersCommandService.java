@@ -32,7 +32,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
 
     @Override
     @SneakyThrows
-    public String processMessageInternal(Message message, Chat chat, ChatUser user) {
+    public String processMessageInternal(Message message, Chat chat, ChatUser user) { // TODO: Fix & Refactor & Rewrite
         if (bot.isUserAdmin(user)) {
             List<ChatUser> usersToClear = getChatUsersToClear(chat);
             usersToClear.forEach(cu -> cu.setActive(false));
