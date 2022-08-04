@@ -1,6 +1,7 @@
-package io.github.wolches.tgbot.alkach.service.update;
+package io.github.wolches.tgbot.alkach.service;
 
 import io.github.wolches.tgbot.alkach.domain.dto.ReplyDto;
+import io.github.wolches.tgbot.alkach.service.message.MessageUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;

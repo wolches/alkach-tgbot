@@ -35,6 +35,9 @@ public class ChatUser {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne(mappedBy = "chatUser", fetch = FetchType.EAGER)
+    private ChatUserSettings settings;
+
     @Column(name = "msg_count")
     private Long messageCount;
 

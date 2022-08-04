@@ -1,20 +1,18 @@
-package io.github.wolches.tgbot.alkach.service.command.ship;
+package io.github.wolches.tgbot.alkach.service.message.command.ship;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUserShippering;
 import io.github.wolches.tgbot.alkach.persistance.ShipperingDao;
-import io.github.wolches.tgbot.alkach.service.RandomService;
-import io.github.wolches.tgbot.alkach.service.TextService;
-import io.github.wolches.tgbot.alkach.service.command.CommandProcessingService;
+import io.github.wolches.tgbot.alkach.service.util.RandomService;
+import io.github.wolches.tgbot.alkach.service.util.TextService;
+import io.github.wolches.tgbot.alkach.service.message.command.CommandProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.command;
+package io.github.wolches.tgbot.alkach.service.message.command;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;

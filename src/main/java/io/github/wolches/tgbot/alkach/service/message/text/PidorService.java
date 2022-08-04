@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.message;
+package io.github.wolches.tgbot.alkach.service.message.text;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Service
 @RequiredArgsConstructor
-public class PidorService implements MessageProcessingService {
+public class PidorService implements TextMessageProcessingService {
 
     private static final String NO_REGEXP = "^((Н|н)(Е|е)(Т|т)([.?!])*)$";
     private static final String PIDORA_OTVET = "Пидора ответ.";

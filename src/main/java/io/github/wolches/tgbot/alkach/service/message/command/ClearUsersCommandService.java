@@ -1,10 +1,10 @@
-package io.github.wolches.tgbot.alkach.service.command;
+package io.github.wolches.tgbot.alkach.service.message.command;
 
 import io.github.wolches.tgbot.alkach.bot.BotInstance;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
-import io.github.wolches.tgbot.alkach.service.TextService;
+import io.github.wolches.tgbot.alkach.service.util.TextService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -33,10 +33,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
     @Override
     @SneakyThrows
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
-        if (bot
-                .getChatAdminsIds(chat.getTelegramId())
-                .contains(user.getUser().getTelegramId())
-        ) {
+        if (bot.isUserAdmin(user)) {
             List<ChatUser> usersToClear = getChatUsersToClear(chat);
             usersToClear.forEach(cu -> cu.setActive(false));
             chatUserRepository.saveAll(usersToClear);
@@ -54,7 +51,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
         return chat
                 .getChatUsers().stream()
                 .filter(ChatUser::getActive)
-                .filter(cu -> !bot.isChatUserActive(chat.getTelegramId(), cu.getUser().getTelegramId()))
+                .filter(cu -> !bot.isChatUserActive(cu))
                 .collect(Collectors.toList());
     }
 

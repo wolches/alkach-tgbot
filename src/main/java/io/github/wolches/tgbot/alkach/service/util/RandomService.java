@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service;
+package io.github.wolches.tgbot.alkach.service.util;
 
 import lombok.Getter;
 import org.springframework.stereotype.Service;

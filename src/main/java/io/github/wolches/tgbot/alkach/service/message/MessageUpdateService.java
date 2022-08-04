@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.update;
+package io.github.wolches.tgbot.alkach.service.message;
 
 import io.github.wolches.tgbot.alkach.domain.dto.ReplyDto;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
@@ -7,7 +7,6 @@ import io.github.wolches.tgbot.alkach.domain.model.User;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatRepository;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.persistance.repo.UserRepository;
-import io.github.wolches.tgbot.alkach.service.message.MessageProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -39,14 +38,14 @@ public class MessageUpdateService {
         return services
                 .stream()
                 .filter(service -> service.isApplicable(message, chatUser.getChat(), chatUser))
-                .findAny()
                 .map(service -> service.processMessage(message, chatUser.getChat(), chatUser))
                 .map(replyText ->
                         ReplyDto.builder()
                                 .replyMessageId(message.getMessageId())
                                 .chatId(chatUser.getChat().getTelegramId().toString())
                                 .text(replyText)
-                                .build());
+                                .build())
+                .findAny();
     }
 
     @Transactional(propagation = Propagation.MANDATORY)

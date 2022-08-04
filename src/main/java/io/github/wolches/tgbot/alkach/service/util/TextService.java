@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service;
+package io.github.wolches.tgbot.alkach.service.util;
 
 import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;

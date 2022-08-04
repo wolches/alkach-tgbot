@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.message;
+package io.github.wolches.tgbot.alkach.service.message.text;
 
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Service
 @RequiredArgsConstructor
-public class PesdaService implements MessageProcessingService {
+public class PesdaService implements TextMessageProcessingService {
 
     private static final String YES_REGEXP = "^((Д|д)(А|а)([.?!])*)$";
     private static final String PESDA = "Пизда.";
