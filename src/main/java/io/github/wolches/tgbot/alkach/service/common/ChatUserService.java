@@ -1,6 +1,5 @@
-package io.github.wolches.tgbot.alkach.service.message;
+package io.github.wolches.tgbot.alkach.service.common;
 
-import io.github.wolches.tgbot.alkach.domain.dto.ReplyDto;
 import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.model.User;
@@ -11,45 +10,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MessageUpdateService {
+@Transactional(propagation = Propagation.MANDATORY)
+public class ChatUserService {
 
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
     private final ChatUserRepository chatUserRepository;
-    private final List<MessageProcessingService> services;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Optional<ReplyDto> processUpdate(Update update) {
-        Message message = update.getMessage();
-
-        ChatUser chatUser = findChatUserOrNew(
+    public ChatUser getChatUserForMessage(org.telegram.telegrambots.meta.api.objects.Message message) {
+        return findChatUserOrNew(
                 findChatByTgIdOrNewAndUpdate(message.getChat()),
                 findUserByTgIdOrNewAndUpdate(message.getFrom())
         );
-
-        return services
-                .stream()
-                .filter(service -> service.isApplicable(message, chatUser.getChat(), chatUser))
-                .map(service -> service.processMessage(message, chatUser.getChat(), chatUser))
-                .map(replyText ->
-                        ReplyDto.builder()
-                                .replyMessageId(message.getMessageId())
-                                .chatId(chatUser.getChat().getTelegramId().toString())
-                                .text(replyText)
-                                .build())
-                .findAny();
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
-    private ChatUser findChatUserOrNew(Chat chat, User user) {
+    public ChatUser findChatUserOrNew(Chat chat, User user) {
         ChatUser chatUser = chat.getChatUsers().stream()
                 .filter(ch -> ch.getUser().equals(user))
                 .findFirst()
@@ -64,7 +42,7 @@ public class MessageUpdateService {
         return chatUserRepository.incrementMessageCountAndSave(chatUser);
     }
 
-    private Chat findChatByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.Chat tgChat) {
+    public Chat findChatByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.Chat tgChat) {
         Chat chat = chatRepository
                 .findByTelegramId(tgChat.getId())
                 .orElse(Chat.createNew(tgChat.getId()));
@@ -72,7 +50,7 @@ public class MessageUpdateService {
         return chatRepository.incrementMessageCountAndSave(chat);
     }
 
-    private User findUserByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.User tgUser) {
+    public User findUserByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.User tgUser) {
         User user = userRepository.incrementMessageCountAndSave(
                 userRepository
                         .findByTelegramId(tgUser.getId())
@@ -83,4 +61,3 @@ public class MessageUpdateService {
         return user;
     }
 }
-

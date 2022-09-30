@@ -1,9 +1,10 @@
 package io.github.wolches.tgbot.alkach.bot;
 
 
-import io.github.wolches.tgbot.alkach.domain.dto.ReplyDto;
+import io.github.wolches.tgbot.alkach.controller.UpdateController;
+import io.github.wolches.tgbot.alkach.domain.dto.ResultDto;
+import io.github.wolches.tgbot.alkach.domain.dto.UpdateProcessingResultDto;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
-import io.github.wolches.tgbot.alkach.service.UpdateService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -32,12 +33,12 @@ public class BotInstance extends TelegramLongPollingBot {
     protected final String botUsername;
 
     @Setter(onMethod_={@Autowired})
-    private UpdateService updateService;
+    private UpdateController updateController;
 
     @Override
     public void onUpdateReceived(Update update) {
-        Optional<ReplyDto> reply = updateService.processUpdate(update);
-        reply.ifPresent(r ->  sendMessage(r.getChatId(), r.getReplyMessageId(), r.getText()));
+        Optional<UpdateProcessingResultDto> result = updateController.processUpdate(update);
+        result.ifPresent(r -> replyTextMessage(r.getMessageProcessingResultDto()));
     }
 
     private List<Long> getChatAdminsTelegramIds(Long chatId) throws TelegramApiException {
@@ -46,6 +47,10 @@ public class BotInstance extends TelegramLongPollingBot {
                 .map(ChatMember::getUser)
                 .map(User::getId)
                 .collect(Collectors.toList());
+    }
+
+    private void replyTextMessage(Optional<ResultDto> reply) {
+        reply.ifPresent(r ->  sendMessage(r.getChatId(), r.getReplyMessageId(), r.getReplyText()));
     }
 
     public boolean isUserAdmin(ChatUser chatUser) throws TelegramApiException {

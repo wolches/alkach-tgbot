@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ReplyDto {
+public class ResultDto {
 
     private String chatId;
     private Integer replyMessageId;
-    private String text;
+    private String replyText;
 }
