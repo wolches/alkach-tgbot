@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Service
 @RequiredArgsConstructor
-public class PidorService implements TextMessageProcessingService {
+public class PidorTextService implements TextMessageProcessingService {
 
     private static final String NO_REGEXP = "^((Н|н)(Е|е)(Т|т)([.?!])*)$";
     private static final String PIDORA_OTVET = "Пидора ответ.";

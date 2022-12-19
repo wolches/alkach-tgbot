@@ -37,11 +37,11 @@ public class BotInstance extends TelegramLongPollingBot {
     protected final String botToken;
     protected final String botUsername;
 
-    private boolean isInitialized = false;
-
     @PostConstruct
     public void init() {
-        if (!isInitialized) botService.setBot(this);
+        if (!botService.isInitialized()) {
+            botService.setBot(this);
+        }
     }
 
     @Override

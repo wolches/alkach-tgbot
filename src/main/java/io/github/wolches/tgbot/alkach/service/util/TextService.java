@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
@@ -48,13 +49,11 @@ public class TextService {
      *   >> "/start e=12 b=1"
      *   << ["e=12", "b=1"]
      */
-    public List<String> getCommandArguments(String command, String commandText) {
+    public String[] getCommandArguments(String command, String commandText) {
         String[] tokens = commandText.split(" ");
-        List<String> result = new ArrayList<>(tokens.length);
-        for (String token : tokens) {
-            if (token.equals(command)) continue;
-            result.add(token);
+        if (tokens.length > 1) {
+            return Arrays.copyOfRange(tokens, 1, tokens.length);
         }
-        return result;
+        return new String[0];
     }
 }

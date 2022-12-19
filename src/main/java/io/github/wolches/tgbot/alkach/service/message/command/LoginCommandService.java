@@ -11,10 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,7 +23,7 @@ public class LoginCommandService implements CommandProcessingService {
     private static final String PASSWORD_REJECTED         = "Access denied: incorrect password";
     private static final String PASSWORD_ACCEPTED         = "Access granted: %s";
     private static final String EXCEPTION_OCCURED_MESSAGE = "An exception has occured, check logs for additional info.";
-    private static final String SUPERUSER_PWD_HASH        = "d29sY2hlcw==EzJfhhENWN9Zh0Onne9QkQ==";
+    private static final String SUPERUSER_PWD_HASH        = "d29sY2hlcw==EzJfhhENWN9Zh0Onne9QkQ=="; // TODO: External config
 
     private final TextService textService;
     private final SecurityService securityService;
@@ -36,10 +32,10 @@ public class LoginCommandService implements CommandProcessingService {
     @Override
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
         try {
-            List<String> commandArguments = textService.getCommandArguments(LOGIN_COMMAND, message.getText());
+            String[] commandArguments = textService.getCommandArguments(LOGIN_COMMAND, message.getText());
             if (!isPrivateChat(chat)) return RESTRICTED_AT_GROUP_CHAT;
-            if (commandArguments.size() != 1) return PASSWORD_REJECTED;
-            String passwordHash = securityService.getPasswordHashForUser(user.getUser().getLastUserTag(), commandArguments.get(0));
+            if (commandArguments.length != 1) return PASSWORD_REJECTED;
+            String passwordHash = securityService.getPasswordHashForUser(user.getUser().getLastUserTag(), commandArguments[0]);
             if (SUPERUSER_PWD_HASH.equals(passwordHash)) {
                 Optional<UserSettings> settings = settingsRepository.findByUser(user.getUser());
                 settings.ifPresent(us -> us.setAdmin(true));

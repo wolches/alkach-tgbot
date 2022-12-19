@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.message.command.ship;
+package io.github.wolches.tgbot.alkach.service.message.command;
 
 import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ship.ChatShippering;
@@ -6,7 +6,6 @@ import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.model.ship.ChatUserShippering;
 import io.github.wolches.tgbot.alkach.persistance.ShipperingDao;
 import io.github.wolches.tgbot.alkach.service.util.TextService;
-import io.github.wolches.tgbot.alkach.service.message.command.CommandProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;

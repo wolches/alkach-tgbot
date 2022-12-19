@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Service
 @RequiredArgsConstructor
-public class PesdaService implements TextMessageProcessingService {
+public class PesdaTextService implements TextMessageProcessingService {
 
     private static final String YES_REGEXP = "^((Д|д)(А|а)([.?!])*)$";
     private static final String PESDA = "Пизда.";
