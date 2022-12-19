@@ -1,7 +1,7 @@
 package io.github.wolches.tgbot.alkach.service.message.text;
 
-import io.github.wolches.tgbot.alkach.domain.model.Chat;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

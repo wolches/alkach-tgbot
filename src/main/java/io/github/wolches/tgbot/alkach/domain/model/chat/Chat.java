@@ -1,9 +1,6 @@
-package io.github.wolches.tgbot.alkach.domain.model;
+package io.github.wolches.tgbot.alkach.domain.model.chat;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "telegramId"})
 @Entity
 @Table(
         name = "chats",
@@ -43,6 +41,18 @@ public class Chat {
     @Column(name = "chat_name")
     private String chatName;
 
+    @Column(name = "is_group")
+    private boolean group;
+
+    @Column(name = "is_supergroup")
+    private boolean superGroup;
+
+    @Column(name = "is_user")
+    private boolean user;
+
+    @Column(name = "is_channel")
+    private boolean channel;
+
     public void incrementMessageCount() {
         messageCount++;
     }
@@ -53,11 +63,15 @@ public class Chat {
                 .collect(Collectors.toList());
     }
 
-    public static Chat createNew(long telegramId) {
+    public static Chat createNew(org.telegram.telegrambots.meta.api.objects.Chat tgChat) {
         return Chat.builder()
-                .telegramId(telegramId)
+                .telegramId(tgChat.getId())
                 .messageCount(0L)
                 .chatUsers(new ArrayList<>())
+                .group(tgChat.isGroupChat())
+                .superGroup(tgChat.isGroupChat())
+                .user(tgChat.isUserChat())
+                .channel(tgChat.isChannelChat())
                 .build();
     }
 }

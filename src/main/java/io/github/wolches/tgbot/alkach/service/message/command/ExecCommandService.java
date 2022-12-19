@@ -1,7 +1,7 @@
 package io.github.wolches.tgbot.alkach.service.message.command;
 
-import io.github.wolches.tgbot.alkach.domain.model.Chat;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.service.util.TextService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class ExecCommandService implements CommandProcessingService {
     @Override
     public String processMessageInternal(Message message, Chat chat, ChatUser user) {
         try {
-            if (user.getSettings().isAdmin()) {
+            if (user.getUser().getSettings().isAdmin()) {
                 List<String> commandArguments = textService.getCommandArguments(EXEC_COMMAND, message.getText());
                 Process process = createProcess(commandArguments);
                 return String.format(EXECUTION_RESULT_MESSAGE, getExecutionResult(process));

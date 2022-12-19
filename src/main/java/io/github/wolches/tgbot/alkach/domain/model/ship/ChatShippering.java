@@ -1,5 +1,7 @@
-package io.github.wolches.tgbot.alkach.domain.model;
+package io.github.wolches.tgbot.alkach.domain.model.ship;
 
+import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

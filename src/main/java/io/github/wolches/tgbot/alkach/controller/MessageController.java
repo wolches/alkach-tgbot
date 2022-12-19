@@ -1,7 +1,7 @@
 package io.github.wolches.tgbot.alkach.controller;
 
 import io.github.wolches.tgbot.alkach.domain.dto.ResultDto;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.service.common.ChatUserService;
 import io.github.wolches.tgbot.alkach.service.message.MessageProcessingService;
 import lombok.RequiredArgsConstructor;

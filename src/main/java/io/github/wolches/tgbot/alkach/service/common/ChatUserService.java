@@ -1,8 +1,8 @@
 package io.github.wolches.tgbot.alkach.service.common;
 
-import io.github.wolches.tgbot.alkach.domain.model.Chat;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
-import io.github.wolches.tgbot.alkach.domain.model.User;
+import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.user.User;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatRepository;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.persistance.repo.UserRepository;
@@ -19,7 +19,7 @@ public class ChatUserService {
     private final UserRepository userRepository;
     private final ChatUserRepository chatUserRepository;
 
-    private final ChatUserSettingsService chatUserSettingsService;
+    private final UserSettingsService userSettingsService;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ChatUser getChatUserForMessage(org.telegram.telegrambots.meta.api.objects.Message message) {
@@ -27,6 +27,24 @@ public class ChatUserService {
                 findChatByTgIdOrNewAndUpdate(message.getChat()),
                 findUserByTgIdOrNewAndUpdate(message.getFrom())
         );
+    }
+
+    public Chat findChatByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.Chat tgChat) {
+        Chat chat = chatRepository
+                .findByTelegramId(tgChat.getId())
+                .orElse(Chat.createNew(tgChat));
+        chat.setChatName(tgChat.getFirstName());
+        return chatRepository.incrementMessageCountAndSave(chat);
+    }
+
+    public User findUserByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.User tgUser) {
+        User user = userRepository
+                .findByTelegramId(tgUser.getId())
+                .orElse(User.createNew(tgUser.getId()));
+        user.setLastUserTag(tgUser.getUserName());
+        user.setLastUsername(tgUser.getFirstName());
+        user = userRepository.incrementMessageCountAndSave(user);
+        return userSettingsService.initUserSettingsIfNotExists(user);
     }
 
     public ChatUser findChatUserOrNew(Chat chat, User user) {
@@ -41,26 +59,7 @@ public class ChatUserService {
                     return cu;
                 });
         chatUser.setActive(true);
-        chatUser = chatUserSettingsService.initUserSettingsIfNotExists(chatUser);
-        return chatUserRepository.incrementMessageCountAndSave(chatUser);
-    }
-
-    public Chat findChatByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.Chat tgChat) {
-        Chat chat = chatRepository
-                .findByTelegramId(tgChat.getId())
-                .orElse(Chat.createNew(tgChat.getId()));
-        chat.setChatName(tgChat.getFirstName());
-        return chatRepository.incrementMessageCountAndSave(chat);
-    }
-
-    public User findUserByTgIdOrNewAndUpdate(org.telegram.telegrambots.meta.api.objects.User tgUser) {
-        User user = userRepository.incrementMessageCountAndSave(
-                userRepository
-                        .findByTelegramId(tgUser.getId())
-                        .orElse(User.createNew(tgUser.getId()))
-        );
-        user.setLastUserTag(tgUser.getUserName());
-        user.setLastUsername(tgUser.getFirstName());
-        return user;
+        chatUser = chatUserRepository.incrementMessageCountAndSave(chatUser);
+        return userSettingsService.initChatUserSettingsIfNotExists(chatUser);
     }
 }

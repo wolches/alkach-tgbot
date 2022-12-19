@@ -1,13 +1,12 @@
 package io.github.wolches.tgbot.alkach.service.util;
 
-import io.github.wolches.tgbot.alkach.domain.model.ChatShippering;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.ship.ChatShippering;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 

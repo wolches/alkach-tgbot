@@ -4,8 +4,8 @@ package io.github.wolches.tgbot.alkach.bot;
 import io.github.wolches.tgbot.alkach.controller.UpdateController;
 import io.github.wolches.tgbot.alkach.domain.dto.ResultDto;
 import io.github.wolches.tgbot.alkach.domain.dto.UpdateProcessingResultDto;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
-import io.github.wolches.tgbot.alkach.service.message.command.ClearUsersCommandService;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
+import io.github.wolches.tgbot.alkach.service.common.BotService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -31,18 +31,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BotInstance extends TelegramLongPollingBot {
 
+    private final UpdateController updateController;
+    private final BotService botService;
+
     protected final String botToken;
     protected final String botUsername;
 
-    @Setter(onMethod_={@Autowired})
-    private UpdateController updateController;
-
-    @Setter(onMethod_={@Autowired})
-    private ClearUsersCommandService clearUsersCommandService;
+    private boolean isInitialized = false;
 
     @PostConstruct
-    private void init() {
-        clearUsersCommandService.setBot(this);
+    public void init() {
+        if (!isInitialized) botService.setBot(this);
     }
 
     @Override

@@ -1,9 +1,7 @@
-package io.github.wolches.tgbot.alkach.domain.model;
+package io.github.wolches.tgbot.alkach.domain.model.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "telegramId"})
 @Entity
 @Table(
         name = "users",
@@ -50,6 +49,9 @@ public class User {
 
     @Column(name = "fucker_count")
     private Long fuckerCount;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    UserSettings settings;
 
     public void incrementMessageCount() {
         messageCount++;

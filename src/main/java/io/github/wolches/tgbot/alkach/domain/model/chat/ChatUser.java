@@ -1,9 +1,7 @@
-package io.github.wolches.tgbot.alkach.domain.model;
+package io.github.wolches.tgbot.alkach.domain.model.chat;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.github.wolches.tgbot.alkach.domain.model.user.User;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +9,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "chat", "user"})
 @Entity
 @Table(
         name = "chat_users",

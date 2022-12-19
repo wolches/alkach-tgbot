@@ -1,7 +1,7 @@
 package io.github.wolches.tgbot.alkach.service.message.command;
 
-import io.github.wolches.tgbot.alkach.domain.model.Chat;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.service.message.text.TextMessageProcessingService;
 import org.telegram.telegrambots.meta.api.objects.Message;
 

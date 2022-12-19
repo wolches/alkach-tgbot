@@ -1,14 +1,14 @@
 package io.github.wolches.tgbot.alkach.service.message.command;
 
 import io.github.wolches.tgbot.alkach.bot.BotInstance;
-import io.github.wolches.tgbot.alkach.domain.model.Chat;
-import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
+import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
+import io.github.wolches.tgbot.alkach.service.common.BotService;
 import io.github.wolches.tgbot.alkach.service.util.TextService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -26,7 +26,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
 
     private final ChatUserRepository chatUserRepository;
     private final TextService textService;
-
+    private final BotService botService;
     @Setter
     private BotInstance bot;
 
