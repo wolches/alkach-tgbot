@@ -24,9 +24,13 @@ public class ChatUserSettings {
     @JoinColumn(name = "chat_user_id")
     private ChatUser chatUser;
 
+    @Column(name = "is_admin")
+    private boolean admin;
+
     public static ChatUserSettings createDefaultSettings(ChatUser chatUser) {
         return ChatUserSettings.builder()
                 .chatUser(chatUser)
+                .admin(false)
                 .build();
     }
 }

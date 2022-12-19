@@ -1,26 +1,35 @@
 package io.github.wolches.tgbot.alkach.service.common;
 
-import io.github.wolches.tgbot.alkach.domain.model.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
-import io.github.wolches.tgbot.alkach.domain.model.User;
+import io.github.wolches.tgbot.alkach.domain.model.ChatUserSettings;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatRepository;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
+import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserSettingsRepository;
 import io.github.wolches.tgbot.alkach.persistance.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ChatUserService {
+public class ChatUserSettingsService {
 
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
     private final ChatUserRepository chatUserRepository;
+    private final ChatUserSettingsRepository chatUserSettingsRepository;
 
-    private final ChatUserSettingsService chatUserSettingsService;
+    public ChatUser initUserSettingsIfNotExists(ChatUser chatUser) {
+        if (chatUser.getSettings() == null) {
+            ChatUserSettings defaultSettings = ChatUserSettings.createDefaultSettings(chatUser);
+            chatUser.setSettings(defaultSettings);
+            chatUserSettingsRepository.save(defaultSettings);
+            chatUserRepository.save(chatUser);
+        }
+        return chatUser;
+    }
 
+
+    /*
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ChatUser getChatUserForMessage(org.telegram.telegrambots.meta.api.objects.Message message) {
         return findChatUserOrNew(
@@ -41,7 +50,6 @@ public class ChatUserService {
                     return cu;
                 });
         chatUser.setActive(true);
-        chatUser = chatUserSettingsService.initUserSettingsIfNotExists(chatUser);
         return chatUserRepository.incrementMessageCountAndSave(chatUser);
     }
 
@@ -63,4 +71,5 @@ public class ChatUserService {
         user.setLastUsername(tgUser.getFirstName());
         return user;
     }
+    */
 }

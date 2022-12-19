@@ -27,7 +27,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
     private final ChatUserRepository chatUserRepository;
     private final TextService textService;
 
-    @Setter(onMethod_ = {@Autowired})
+    @Setter
     private BotInstance bot;
 
     @Override

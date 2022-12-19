@@ -5,6 +5,7 @@ import io.github.wolches.tgbot.alkach.controller.UpdateController;
 import io.github.wolches.tgbot.alkach.domain.dto.ResultDto;
 import io.github.wolches.tgbot.alkach.domain.dto.UpdateProcessingResultDto;
 import io.github.wolches.tgbot.alkach.domain.model.ChatUser;
+import io.github.wolches.tgbot.alkach.service.message.command.ClearUsersCommandService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +36,14 @@ public class BotInstance extends TelegramLongPollingBot {
 
     @Setter(onMethod_={@Autowired})
     private UpdateController updateController;
+
+    @Setter(onMethod_={@Autowired})
+    private ClearUsersCommandService clearUsersCommandService;
+
+    @PostConstruct
+    private void init() {
+        clearUsersCommandService.setBot(this);
+    }
 
     @Override
     public void onUpdateReceived(Update update) {

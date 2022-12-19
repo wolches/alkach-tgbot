@@ -16,7 +16,7 @@ public interface CommandProcessingService extends TextMessageProcessingService {
 
     @Override
     default boolean isApplicableInternal(Message message, Chat chat, ChatUser user) {
-        return message.getText().equalsIgnoreCase(getCommandString());
+        return message.getText().startsWith(getCommandString());
     }
 
     String getCommandString();

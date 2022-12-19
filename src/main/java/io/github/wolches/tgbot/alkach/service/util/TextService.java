@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
@@ -41,5 +43,19 @@ public class TextService {
                 getUserLink(chatShippering.getShipperedB()),
                 chatShippering.getShipperedAt().format(DateTimeFormatter.ISO_LOCAL_DATE)
         );
+    }
+
+    /**
+     *   >> "/start e=12 b=1"
+     *   << ["e=12", "b=1"]
+     */
+    public List<String> getCommandArguments(String command, String commandText) {
+        String[] tokens = commandText.split(" ");
+        List<String> result = new ArrayList<>(tokens.length);
+        for (String token : tokens) {
+            if (token.equals(command)) continue;
+            result.add(token);
+        }
+        return result;
     }
 }
