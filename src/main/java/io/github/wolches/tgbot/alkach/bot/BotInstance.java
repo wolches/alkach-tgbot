@@ -2,7 +2,7 @@ package io.github.wolches.tgbot.alkach.bot;
 
 
 import io.github.wolches.tgbot.alkach.controller.UpdateController;
-import io.github.wolches.tgbot.alkach.domain.dto.ResultDto;
+import io.github.wolches.tgbot.alkach.domain.dto.ReplyMessageDto;
 import io.github.wolches.tgbot.alkach.domain.dto.UpdateProcessingResultDto;
 import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.service.common.BotService;
@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
@@ -50,24 +49,20 @@ public class BotInstance extends TelegramLongPollingBot {
         result.ifPresent(r -> replyTextMessage(r.getMessageProcessingResultDto()));
     }
 
-    private List<Long> getChatAdminsTelegramIds(Long chatId) throws TelegramApiException {
-        return execute(
-                new GetChatAdministrators(chatId.toString())).stream()
-                .map(ChatMember::getUser)
-                .map(User::getId)
-                .collect(Collectors.toList());
-    }
-
-    private void replyTextMessage(Optional<ResultDto> reply) {
+    private void replyTextMessage(Optional<ReplyMessageDto> reply) {
         reply.ifPresent(r ->  sendMessage(r.getChatId(), r.getReplyMessageId(), r.getReplyText()));
     }
 
-    public boolean isUserAdmin(ChatUser chatUser) throws TelegramApiException {
-        return getChatAdminsTelegramIds(chatUser.getChat().getTelegramId())
-                .contains(chatUser.getUser().getTelegramId());
+    public boolean isUserAdmin(Long chatTgId, Long userTgId) throws TelegramApiException {
+        return execute(
+                new GetChatAdministrators(chatTgId.toString())).stream()
+                    .map(ChatMember::getUser)
+                    .map(User::getId)
+                    .collect(Collectors.toList())
+                .contains(userTgId);
     }
 
-    private boolean isChatUserActive(Long chatId, Long userId) {
+    public boolean isChatUserActive(Long chatId, Long userId) {
         try {
             return  execute(new GetChatMember(chatId.toString(), userId))
                     .getUser().getId().equals(userId);
@@ -76,10 +71,6 @@ public class BotInstance extends TelegramLongPollingBot {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public boolean isChatUserActive(ChatUser chatUser) {
-        return isChatUserActive(chatUser.getChat().getTelegramId(), chatUser.getUser().getTelegramId());
     }
 
     private void sendMessage(String chatId, Integer replyMessageId, String text) {

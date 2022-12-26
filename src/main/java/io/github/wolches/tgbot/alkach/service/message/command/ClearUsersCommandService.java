@@ -1,13 +1,11 @@
 package io.github.wolches.tgbot.alkach.service.message.command;
 
-import io.github.wolches.tgbot.alkach.bot.BotInstance;
 import io.github.wolches.tgbot.alkach.domain.model.chat.Chat;
 import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.persistance.repo.ChatUserRepository;
 import io.github.wolches.tgbot.alkach.service.common.BotService;
 import io.github.wolches.tgbot.alkach.service.util.TextService;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -26,14 +24,12 @@ public class ClearUsersCommandService implements CommandProcessingService {
 
     private final ChatUserRepository chatUserRepository;
     private final TextService textService;
-    private final BotService botService;
-    @Setter
-    private BotInstance bot;
+    private final BotService bot;
 
     @Override
     @SneakyThrows
     public String processMessageInternal(Message message, Chat chat, ChatUser user) { // TODO: Fix & Refactor & Rewrite
-        if (bot.isUserAdmin(user)) {
+        if (bot.isAdmin(user)) {
             List<ChatUser> usersToClear = getChatUsersToClear(chat);
             usersToClear.forEach(cu -> cu.setActive(false));
             chatUserRepository.saveAll(usersToClear);
@@ -51,7 +47,7 @@ public class ClearUsersCommandService implements CommandProcessingService {
         return chat
                 .getChatUsers().stream()
                 .filter(ChatUser::getActive)
-                .filter(cu -> !bot.isChatUserActive(cu))
+                .filter(cu -> !bot.isActive(cu))
                 .collect(Collectors.toList());
     }
 

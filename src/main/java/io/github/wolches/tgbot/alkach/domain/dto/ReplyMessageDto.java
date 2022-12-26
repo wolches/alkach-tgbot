@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ResultDto {
+public class ReplyMessageDto {
 
     private String chatId;
     private Integer replyMessageId;

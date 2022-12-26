@@ -9,5 +9,5 @@ import java.util.Optional;
 @Builder
 public class UpdateProcessingResultDto {
 
-    private Optional<ResultDto> messageProcessingResultDto;
+    private Optional<ReplyMessageDto> messageProcessingResultDto;
 }
