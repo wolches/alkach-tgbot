@@ -1,10 +1,9 @@
 package io.github.wolches.tgbot.alkach.bot;
 
 import io.github.wolches.tgbot.alkach.controller.UpdateController;
-import io.github.wolches.tgbot.alkach.service.common.BotService;
+import io.github.wolches.tgbot.alkach.common.BotService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,9 +1,9 @@
 package io.github.wolches.tgbot.alkach.controller;
 
 import io.github.wolches.tgbot.alkach.domain.dto.ReplyMessageDto;
-import io.github.wolches.tgbot.alkach.domain.model.chat.ChatUser;
-import io.github.wolches.tgbot.alkach.service.common.ChatUserService;
-import io.github.wolches.tgbot.alkach.service.message.MessageProcessingService;
+import io.github.wolches.tgbot.alkach.persistence.model.chat.ChatUser;
+import io.github.wolches.tgbot.alkach.common.ChatUserService;
+import io.github.wolches.tgbot.alkach.message.MessageProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
