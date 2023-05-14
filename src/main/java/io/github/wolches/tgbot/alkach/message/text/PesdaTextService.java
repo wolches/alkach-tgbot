@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @RequiredArgsConstructor
 public class PesdaTextService implements TextMessageProcessingService {
 
-    private static final String YES_REGEXP = "^((Д|д)(А|а)([.?!])*)$";
+    private static final String YES_REGEXP = "^([Дд][Аа]([.?!])*)$";
     private static final String PESDA = "Пизда.";
 
     @Override

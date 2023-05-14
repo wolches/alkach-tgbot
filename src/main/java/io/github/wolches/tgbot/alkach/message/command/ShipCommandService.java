@@ -47,7 +47,6 @@ public class ShipCommandService implements CommandProcessingService {
     private ChatShippering shipNewPairForChat(Chat chat) {
         ChatUser userA = getRandomChatUser(chat);
         ChatUser userB = getRandomChatUser(chat, userA);
-
         ChatShippering chatShippering = shipperingDao
                 .saveChatShippering(
                         ChatShippering.builder()
@@ -57,7 +56,6 @@ public class ShipCommandService implements CommandProcessingService {
                                 .shipperedAt(OffsetDateTime.now())
                                 .build()
         );
-
         incrementShippedCounterForChatUser(userA);
         incrementShippedCounterForChatUser(userB);
 

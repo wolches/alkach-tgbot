@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.function.Function;
 
 @Service
@@ -24,15 +25,9 @@ public class TextService {
     }
 
     public <E> String getListText(List<E> listSource, Function<E, String> formatFunction) {
-        StringBuilder listBuilder = new StringBuilder();
-        for (int i = 0, size = listSource.size(); i < size; i++) {
-            listBuilder
-                    .append(i + 1)
-                    .append(". ")
-                    .append(formatFunction.apply(listSource.get(i)))
-                    .append(i + 1 == size ? "" : " \r\n");
-        }
-        return listBuilder.toString();
+        StringJoiner stringJoiner = new StringJoiner(", ");
+        listSource.forEach(text -> stringJoiner.add(formatFunction.apply(text)));
+        return stringJoiner.toString();
     }
 
     public String getShipperingHistoryRow(ChatShippering chatShippering) {
@@ -48,9 +43,12 @@ public class TextService {
      *   >> "/start e=12 b=1"
      *   << ["e=12", "b=1"]
      */
-    public String[] getCommandArguments(String command, String commandText) {
-        String[] tokens = commandText.split(" ");
+    public String[] getCommandArguments(String command, String commandQuery) {
+        String[] tokens = commandQuery.split(" ");
         if (tokens.length > 1) {
+            if (!tokens[0].equals(command)) {
+                throw new IllegalArgumentException("Command name does not match given query!");
+            }
             return Arrays.copyOfRange(tokens, 1, tokens.length);
         }
         return new String[0];

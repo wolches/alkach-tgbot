@@ -10,8 +10,8 @@ public interface BotApi {
 
     // TODO 1 Business logic exceptions
     // TODO 2 Refactor to more clear naming
-    boolean isAdmin(ChatUser chatUser);
+    boolean isChatUserAdmin(ChatUser chatUser);
 
     // TODO 2 Refactor to more clear naming
-    boolean isActive(ChatUser chatUser);
+    boolean isChatUserActive(ChatUser chatUser);
 }

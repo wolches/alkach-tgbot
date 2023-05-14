@@ -25,9 +25,14 @@ public class UserSettings {
     @Column(name = "is_admin")
     private boolean admin;
 
-    public static UserSettings createDefaultSettings(User user) {
+    public static UserSettings withUser(User user) {
+        UserSettings settings = getDefault();
+        settings.setUser(user);
+        return settings;
+    }
+
+    public static UserSettings getDefault() {
         return UserSettings.builder()
-                .user(user)
                 .admin(false)
                 .build();
     }

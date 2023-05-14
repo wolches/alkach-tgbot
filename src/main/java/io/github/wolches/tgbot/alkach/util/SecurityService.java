@@ -1,6 +1,5 @@
 package io.github.wolches.tgbot.alkach.util;
 
-import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
@@ -8,10 +7,7 @@ import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.time.Instant;
 import java.util.Base64;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class SecurityService {

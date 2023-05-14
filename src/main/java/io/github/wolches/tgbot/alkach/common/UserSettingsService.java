@@ -21,7 +21,7 @@ public class UserSettingsService {
 
     public ChatUser initChatUserSettingsIfNotExists(ChatUser chatUser) {
         if (chatUser.getSettings() == null) {
-            ChatUserSettings settings = ChatUserSettings.createDefaultSettings(chatUser);
+            ChatUserSettings settings = ChatUserSettings.withUser(chatUser);
             settings = chatUserSettingsRepository.save(settings);
             chatUser.setSettings(settings);
             chatUser = chatUserRepository.save(chatUser);
@@ -31,7 +31,7 @@ public class UserSettingsService {
 
     public User initUserSettingsIfNotExists(User user) {
         if (user.getSettings() == null) {
-            UserSettings settings = UserSettings.createDefaultSettings(user);
+            UserSettings settings = UserSettings.withUser(user);
             settings = userSettingsRepository.save(settings);
             user.setSettings(settings);
             user = userRepository.save(user);

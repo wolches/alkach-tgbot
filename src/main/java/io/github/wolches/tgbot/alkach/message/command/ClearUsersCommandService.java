@@ -38,7 +38,7 @@ public class ClearUsersCommandService implements CommandProcessingService, BotRe
     @Override
     @SneakyThrows
     public String processMessageInternal(Message message, Chat chat, ChatUser user) { // TODO: Fix & Refactor & Rewrite
-        if (bot.isAdmin(user)) {
+        if (bot.isChatUserAdmin(user)) {
             List<ChatUser> usersToClear = getChatUsersToClear(chat);
             usersToClear.forEach(cu -> cu.setActive(false));
             chatUserRepository.saveAll(usersToClear);
@@ -56,7 +56,7 @@ public class ClearUsersCommandService implements CommandProcessingService, BotRe
         return chat
                 .getChatUsers().stream()
                 .filter(ChatUser::getActive)
-                .filter(cu -> !bot.isActive(cu))
+                .filter(cu -> !bot.isChatUserActive(cu))
                 .collect(Collectors.toList());
     }
 

@@ -35,11 +35,11 @@ public class BotService implements BotApi {
     // TODO 1 Business logic exceptions
     // TODO 2 Refactor to more clear naming
     @SneakyThrows
-    public boolean isAdmin(ChatUser chatUser) {
+    public boolean isChatUserAdmin(ChatUser chatUser) {
         return bot.isUserAdmin(chatUser.getChat().getTelegramId(), chatUser.getUser().getTelegramId());
     }
 
-    public boolean isActive(ChatUser chatUser) {
+    public boolean isChatUserActive(ChatUser chatUser) {
         return bot.isChatUserActive(chatUser.getChat().getTelegramId(), chatUser.getUser().getTelegramId());
     }
 }

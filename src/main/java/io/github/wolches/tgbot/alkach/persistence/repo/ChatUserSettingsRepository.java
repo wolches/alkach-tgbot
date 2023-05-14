@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ChatUserSettingsRepository extends JpaRepository<ChatUserSettings, Long> {
 
     default ChatUserSettings findByChatUserOrDefault(ChatUser chatUser) {
-        return findByChatUser(chatUser).orElse(ChatUserSettings.createDefaultSettings(chatUser));
+        return findByChatUser(chatUser).orElse(ChatUserSettings.withUser(chatUser));
     }
 
     Optional<ChatUserSettings> findByChatUser(ChatUser chatUser);

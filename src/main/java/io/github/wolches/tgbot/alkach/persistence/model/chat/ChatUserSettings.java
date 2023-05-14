@@ -22,9 +22,13 @@ public class ChatUserSettings {
     @JoinColumn(name = "chat_user_id")
     private ChatUser chatUser;
 
-    public static ChatUserSettings createDefaultSettings(ChatUser chatUser) {
-        return ChatUserSettings.builder()
-                .chatUser(chatUser)
-                .build();
+    public static ChatUserSettings withUser(ChatUser chatUser) {
+        ChatUserSettings settings = getDefault();
+        settings.chatUser = chatUser;
+        return settings;
+    }
+
+    public static ChatUserSettings getDefault() {
+        return ChatUserSettings.builder().build();
     }
 }
