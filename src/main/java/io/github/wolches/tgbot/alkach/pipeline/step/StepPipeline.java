@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public class StepPipeline<C extends Context> implements Step<C> {
 
     private final Pipeline<C, C> internal;
+
     @Override
     public void accept(C context) {
         internal.run(context);

@@ -1,7 +1,7 @@
 package io.github.wolches.tgbot.alkach.util;
 
-import io.github.wolches.tgbot.alkach.persistence.model.ship.ChatShippering;
-import io.github.wolches.tgbot.alkach.persistence.model.chat.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.persistence.model.ship.ChatShippering;
+import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

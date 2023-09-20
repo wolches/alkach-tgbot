@@ -1,10 +1,10 @@
 package io.github.wolches.tgbot.alkach.bot;
 
 
-import io.github.wolches.tgbot.alkach.controller.UpdateController;
+import io.github.wolches.tgbot.alkach.service.UpdateController;
 import io.github.wolches.tgbot.alkach.domain.dto.ReplyMessageDto;
 import io.github.wolches.tgbot.alkach.domain.dto.UpdateProcessingResultDto;
-import io.github.wolches.tgbot.alkach.common.BotService;
+import io.github.wolches.tgbot.alkach.service.common.BotService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

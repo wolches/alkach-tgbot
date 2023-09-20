@@ -1,7 +1,7 @@
 package io.github.wolches.tgbot.alkach.bot.contract;
 
 import io.github.wolches.tgbot.alkach.bot.BotInstance;
-import io.github.wolches.tgbot.alkach.persistence.model.chat.ChatUser;
+import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 
 public interface BotApi {
 
