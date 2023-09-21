@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import javax.annotation.PostConstruct;
+
 @Controller
 @RequiredArgsConstructor
 public class UpdatePipeline {
@@ -21,6 +23,7 @@ public class UpdatePipeline {
 
     private Pipeline<Update, UpdateContext> pipeline;
 
+    @PostConstruct
     public void buildPipeline() {
         pipeline = PipelineBuilder
                 .start((Update upd) -> new UpdateContext(upd))

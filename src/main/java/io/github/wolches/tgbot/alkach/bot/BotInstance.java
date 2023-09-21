@@ -43,10 +43,6 @@ public class BotInstance extends TelegramLongPollingBot {
         updatePipeline.processUpdate(update);
     }
 
-    private void replyTextMessage(Optional<ReplyMessageDto> reply) {
-        reply.ifPresent(r ->  sendMessage(r.getChatId(), r.getReplyMessageId(), r.getReplyText()));
-    }
-
     public boolean isUserAdmin(Long chatTgId, Long userTgId) throws TelegramApiException {
         return execute(
                 new GetChatAdministrators(chatTgId.toString())).stream()
@@ -65,8 +61,5 @@ public class BotInstance extends TelegramLongPollingBot {
             e.printStackTrace();
         }
         return false;
-    }
-
-    private void sendMessage(String chatId, Integer replyMessageId, String text) {
     }
 }
