@@ -1,9 +1,14 @@
 package io.github.wolches.tgbot.alkach.bot;
 
 import io.github.wolches.tgbot.alkach.authorization.AuthorizationRequired;
+import io.github.wolches.tgbot.alkach.bot.BotInstance;
+import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import org.hibernate.cfg.NotYetImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.*;
@@ -24,127 +29,142 @@ import java.util.concurrent.CompletableFuture;
 
 @AuthorizationRequired
 @Component
-public class AbsSenderProxy extends AbsSender {
+public class BotService extends AbsSender {
 
-    private final DefaultAbsSender delegate;
+    private BotInstance bot;
 
-    public AbsSenderProxy(DefaultAbsSender delegate) {
-        this.delegate = delegate;
+    @Getter
+    private boolean initialized = false;
+
+    public void setBot(BotInstance bot) {
+        if (!initialized && this.bot == null) {
+            this.bot = bot;
+            initialized = true;
+        }
+    }
+
+    @SneakyThrows
+    public boolean isChatUserAdmin(ChatUser chatUser) {
+        return bot.isUserAdmin(chatUser.getChat().getTelegramId(), chatUser.getUser().getTelegramId());
+    }
+
+    public boolean isChatUserActive(ChatUser chatUser) {
+        return bot.isChatUserActive(chatUser.getChat().getTelegramId(), chatUser.getUser().getTelegramId());
     }
 
     @Override
     public Boolean execute(SetChatPhoto setChatPhoto) throws TelegramApiException {
-        return delegate.execute(setChatPhoto);
+        return bot.execute(setChatPhoto);
     }
 
     @Override
     public List<Message> execute(SendMediaGroup sendMediaGroup) throws TelegramApiException {
-        return delegate.execute(sendMediaGroup);
+        return bot.execute(sendMediaGroup);
     }
 
     @Override
     public Boolean execute(AddStickerToSet addStickerToSet) throws TelegramApiException {
-        return delegate.execute(addStickerToSet);
+        return bot.execute(addStickerToSet);
     }
 
     @Override
     public Boolean execute(SetStickerSetThumb setStickerSetThumb) throws TelegramApiException {
-        return delegate.execute(setStickerSetThumb);
+        return bot.execute(setStickerSetThumb);
     }
 
     @Override
     public Boolean execute(CreateNewStickerSet createNewStickerSet) throws TelegramApiException {
-        return delegate.execute(createNewStickerSet);
+        return bot.execute(createNewStickerSet);
     }
 
     @Override
     public File execute(UploadStickerFile uploadStickerFile) throws TelegramApiException {
-        return delegate.execute(uploadStickerFile);
+        return bot.execute(uploadStickerFile);
     }
 
     @Override
     public Serializable execute(EditMessageMedia editMessageMedia) throws TelegramApiException {
-        return delegate.execute(editMessageMedia);
+        return bot.execute(editMessageMedia);
     }
 
     @Override
     public Message execute(SendAnimation sendAnimation) throws TelegramApiException {
-        return delegate.execute(sendAnimation);
+        return bot.execute(sendAnimation);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendDocument sendDocument) {
-        return delegate.executeAsync(sendDocument);
+        return bot.executeAsync(sendDocument);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendPhoto sendPhoto) {
-        return delegate.executeAsync(sendPhoto);
+        return bot.executeAsync(sendPhoto);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideo sendVideo) {
-        return delegate.executeAsync(sendVideo);
+        return bot.executeAsync(sendVideo);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVideoNote sendVideoNote) {
-        return delegate.executeAsync(sendVideoNote);
+        return bot.executeAsync(sendVideoNote);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendSticker sendSticker) {
-        return delegate.executeAsync(sendSticker);
+        return bot.executeAsync(sendSticker);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendAudio sendAudio) {
-        return delegate.executeAsync(sendAudio);
+        return bot.executeAsync(sendAudio);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendVoice sendVoice) {
-        return delegate.executeAsync(sendVoice);
+        return bot.executeAsync(sendVoice);
     }
 
     @Override
     public CompletableFuture<List<Message>> executeAsync(SendMediaGroup sendMediaGroup) {
-        return delegate.executeAsync(sendMediaGroup);
+        return bot.executeAsync(sendMediaGroup);
     }
 
     @Override
     public CompletableFuture<Boolean> executeAsync(SetChatPhoto setChatPhoto) {
-        return delegate.executeAsync(setChatPhoto);
+        return bot.executeAsync(setChatPhoto);
     }
 
     @Override
     public CompletableFuture<Boolean> executeAsync(AddStickerToSet addStickerToSet) {
-        return delegate.executeAsync(addStickerToSet);
+        return bot.executeAsync(addStickerToSet);
     }
 
     @Override
     public CompletableFuture<Boolean> executeAsync(SetStickerSetThumb setStickerSetThumb) {
-        return delegate.executeAsync(setStickerSetThumb);
+        return bot.executeAsync(setStickerSetThumb);
     }
 
     @Override
     public CompletableFuture<Boolean> executeAsync(CreateNewStickerSet createNewStickerSet) {
-        return delegate.executeAsync(createNewStickerSet);
+        return bot.executeAsync(createNewStickerSet);
     }
 
     @Override
     public CompletableFuture<File> executeAsync(UploadStickerFile uploadStickerFile) {
-        return delegate.executeAsync(uploadStickerFile);
+        return bot.executeAsync(uploadStickerFile);
     }
 
     @Override
     public CompletableFuture<Serializable> executeAsync(EditMessageMedia editMessageMedia) {
-        return delegate.executeAsync(editMessageMedia);
+        return bot.executeAsync(editMessageMedia);
     }
 
     @Override
     public CompletableFuture<Message> executeAsync(SendAnimation sendAnimation) {
-        return delegate.executeAsync(sendAnimation);
+        return bot.executeAsync(sendAnimation);
     }
 
     @Override
@@ -164,51 +184,51 @@ public class AbsSenderProxy extends AbsSender {
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>, Callback extends SentCallback<T>> void executeAsync(Method method, Callback callback) throws TelegramApiException {
-        delegate.executeAsync(method, callback);
+        bot.executeAsync(method, callback);
     }
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> CompletableFuture<T> executeAsync(Method method) throws TelegramApiException {
-        return delegate.executeAsync(method);
+        return bot.executeAsync(method);
     }
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) throws TelegramApiException {
-        return delegate.execute(method);
+        return bot.execute(method);
     }
 
     @Override
     public Message execute(SendDocument sendDocument) throws TelegramApiException {
-        return delegate.execute(sendDocument);
+        return bot.execute(sendDocument);
     }
 
     @Override
     public Message execute(SendPhoto sendPhoto) throws TelegramApiException {
-        return delegate.execute(sendPhoto);
+        return bot.execute(sendPhoto);
     }
 
     @Override
     public Message execute(SendVideo sendVideo) throws TelegramApiException {
-        return delegate.execute(sendVideo);
+        return bot.execute(sendVideo);
     }
 
     @Override
     public Message execute(SendVideoNote sendVideoNote) throws TelegramApiException {
-        return delegate.execute(sendVideoNote);
+        return bot.execute(sendVideoNote);
     }
 
     @Override
     public Message execute(SendSticker sendSticker) throws TelegramApiException {
-        return delegate.execute(sendSticker);
+        return bot.execute(sendSticker);
     }
 
     @Override
     public Message execute(SendAudio sendAudio) throws TelegramApiException {
-        return delegate.execute(sendAudio);
+        return bot.execute(sendAudio);
     }
 
     @Override
     public Message execute(SendVoice sendVoice) throws TelegramApiException {
-        return delegate.execute(sendVoice);
+        return bot.execute(sendVoice);
     }
 }

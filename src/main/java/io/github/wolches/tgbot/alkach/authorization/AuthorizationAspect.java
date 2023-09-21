@@ -39,7 +39,7 @@ public class AuthorizationAspect {
     @Around(value = "@annotation(Authorized)", argNames = "types, maxCalls")
     public Object authorized(ProceedingJoinPoint joinPoint) throws Throwable {
         Authorized annotation = ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(Authorized.class);
-        Class<PartialBotApiMethod>[] types = annotation.types();
+        Class<? extends PartialBotApiMethod>[] types = annotation.types();
         int[] maxCalls = annotation.maxCalls();
 
         assert types.length == maxCalls.length;

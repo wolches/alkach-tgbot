@@ -18,7 +18,6 @@ public class ChatUserService {
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
     private final ChatUserRepository chatUserRepository;
-
     private final UserSettingsService userSettingsService;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
