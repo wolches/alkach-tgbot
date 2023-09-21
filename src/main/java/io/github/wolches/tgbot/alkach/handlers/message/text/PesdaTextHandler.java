@@ -22,7 +22,7 @@ public class PesdaTextHandler implements TextMessageHandler {
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
-    public String processMessageInternal(Message message, Chat chat, ChatUser user) {
+    public String handle(Message message, Chat chat, ChatUser user) {
         return PESDA;
     }
 

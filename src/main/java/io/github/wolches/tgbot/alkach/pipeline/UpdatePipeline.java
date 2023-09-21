@@ -15,6 +15,8 @@ public class UpdatePipeline {
     private final RegisterUserMessageStep registerUserMessageStep;
     private final DefineCommandHandlersStep defineCommandHandlersStep;
     private final HandleCommandStep handleCommandStep;
+    private final DefineTextHandlersStep defineTextHandlersStep;
+    private final HandleTextMessageStep handleTextMessageStep;
     private final SendResponseStep sendResponseStep;
 
     private Pipeline<Update, UpdateContext> pipeline;
@@ -34,15 +36,18 @@ public class UpdatePipeline {
                                         .start((UpdateContext u) -> u)
                                         .next(defineCommandHandlersStep)
                                         .next(handleCommandStep)
-                                        .build())
-                                )
-                                //.orElse()
+                                        .build()))
+                                .orElse(new StepPipeline<>(PipelineBuilder
+                                        .start((UpdateContext u) -> u)
+                                        .next(defineTextHandlersStep)
+                                        .next(handleTextMessageStep)
+                                        .build()))
                                 .build()
                                 .next(sendResponseStep)
-                                .build())
-                        ).build()
-                        .build())
-                ).build()
+                                .build()))
+                        .build()
+                        .build()))
+                .build()
                 .build();
     }
 

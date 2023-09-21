@@ -20,5 +20,5 @@ public interface TextMessageHandler {
         return false;
     }
 
-    String processMessageInternal(Message message, Chat chat, ChatUser user);
+    String handle(Message message, Chat chat, ChatUser user);
 }
