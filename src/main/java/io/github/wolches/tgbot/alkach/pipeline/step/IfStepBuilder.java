@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.function.Predicate;
 
 @RequiredArgsConstructor
-
 public class IfStepBuilder<I, C extends Context> {
 
     private final Predicate<C> expression;

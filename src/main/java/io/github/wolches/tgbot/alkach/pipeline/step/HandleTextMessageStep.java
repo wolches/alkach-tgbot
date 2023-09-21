@@ -4,9 +4,11 @@ import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.handlers.message.command.CommandHandler;
 import io.github.wolches.tgbot.alkach.handlers.message.text.TextMessageHandler;
 import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class HandleTextMessageStep implements Step<UpdateContext> {
 
     @Override
