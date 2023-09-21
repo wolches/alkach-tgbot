@@ -46,14 +46,13 @@ public class UpdatePipeline {
                                         .next(handleTextMessageStep)
                                         .build()))
                                 .build()
-                                .next(sendResponseStep)
                                 .build()))
                         .build()
+                        .next(sendResponseStep)
                         .build()))
                 .build()
                 .build();
     }
-
 
     public void processUpdate(Update update) {
         pipeline.run(update);
