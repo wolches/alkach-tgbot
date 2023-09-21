@@ -1,7 +1,6 @@
 package io.github.wolches.tgbot.alkach.handlers.message.command;
 
-import io.github.wolches.tgbot.alkach.bot.contract.BotApi;
-import io.github.wolches.tgbot.alkach.bot.contract.BotRelying;
+import io.github.wolches.tgbot.alkach.bot.BotProxyService;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.Chat;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.persistence.repo.ChatUserRepository;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ClearUsersCommandHandler implements CommandHandler, BotRelying {
+public class ClearUsersCommandHandler implements CommandHandler {
 
     private static final String CLEAR_COMMAND = "/update_chat_users";
     private static final String CLEAR_TEXT =    "Данные о пользователях чата обновлены! \r\n" +
@@ -27,11 +26,10 @@ public class ClearUsersCommandHandler implements CommandHandler, BotRelying {
     private final ChatUserRepository chatUserRepository;
     private final TextService textService;
 
-    private BotApi bot;
+    private BotProxyService bot;
 
-    @Override
     @Autowired
-    public void setBotApi(BotApi bot) {
+    public void setBotApi(BotProxyService bot) {
         this.bot = bot;
     }
 

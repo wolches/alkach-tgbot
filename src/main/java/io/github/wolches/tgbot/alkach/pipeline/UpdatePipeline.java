@@ -1,5 +1,9 @@
 package io.github.wolches.tgbot.alkach.pipeline;
 
+import io.github.wolches.tgbot.alkach.handlers.message.step.DefineCommandHandlersStep;
+import io.github.wolches.tgbot.alkach.handlers.message.step.DefineTextHandlersStep;
+import io.github.wolches.tgbot.alkach.handlers.message.step.HandleCommandStep;
+import io.github.wolches.tgbot.alkach.handlers.message.step.HandleTextMessageStep;
 import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
 import io.github.wolches.tgbot.alkach.pipeline.pipe.Pipeline;
 import io.github.wolches.tgbot.alkach.pipeline.pipe.PipelineBuilder;

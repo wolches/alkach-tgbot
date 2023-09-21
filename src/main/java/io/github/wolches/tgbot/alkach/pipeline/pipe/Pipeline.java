@@ -29,7 +29,6 @@ public class Pipeline<I, C extends Context> {
             rejectAllPrevSteps(context);
             throw e;
         }
-
     }
 
     public void rejectAllPrevSteps(C context) {
