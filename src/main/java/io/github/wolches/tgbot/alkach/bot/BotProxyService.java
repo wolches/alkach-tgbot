@@ -33,7 +33,6 @@ public class BotProxyService extends AbsSender {
     @Getter
     private boolean initialized = false;
 
-    @Autowired
     public void setBot(BotInstance bot) {
         if (!initialized && this.bot == null) {
             this.bot = bot;

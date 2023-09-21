@@ -16,28 +16,23 @@ public class IfStep<C extends Context> implements Step<C> {
     @Setter
     private Step<C> elseStep;
 
-    private Boolean result;
-
     @Override
     public void accept(C context) {
-        result = expression.test(context);
-        if (result != null) {
-            if (result) {
-                ifTrueStep.accept(context);
-            } else if (hasElse()) {
-                elseStep.accept(context);
-            }
+        boolean result = expression.test(context);
+        if (result) {
+            ifTrueStep.accept(context);
+        } else if (hasElse()) {
+            elseStep.accept(context);
         }
     }
 
     @Override
     public void reject(C context) {
-        if (result != null) {
-            if (result) {
-                ifTrueStep.reject(context);
-            } else if (hasElse()) {
-                elseStep.reject(context);
-            }
+        boolean result = expression.test(context);
+        if (result) {
+            ifTrueStep.reject(context);
+        } else if (hasElse()) {
+            elseStep.reject(context);
         }
     }
 
