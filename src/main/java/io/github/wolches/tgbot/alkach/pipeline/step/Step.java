@@ -1,6 +1,6 @@
 package io.github.wolches.tgbot.alkach.pipeline.step;
 
-import io.github.wolches.tgbot.alkach.pipeline.ctx.Context;
+import io.github.wolches.tgbot.alkach.pipeline.context.Context;
 
 public interface Step<C extends Context> {
 

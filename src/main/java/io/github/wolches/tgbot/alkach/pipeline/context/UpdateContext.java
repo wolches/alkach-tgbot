@@ -1,6 +1,5 @@
-package io.github.wolches.tgbot.alkach.pipeline.ctx;
+package io.github.wolches.tgbot.alkach.pipeline.context;
 
-import io.github.wolches.tgbot.alkach.pipeline.ctx.AbstractContext;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Message;

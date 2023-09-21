@@ -1,7 +1,7 @@
 package io.github.wolches.tgbot.alkach.pipeline.step;
 
 import io.github.wolches.tgbot.alkach.bot.BotProxyService;
-import io.github.wolches.tgbot.alkach.pipeline.ctx.UpdateContext;
+import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

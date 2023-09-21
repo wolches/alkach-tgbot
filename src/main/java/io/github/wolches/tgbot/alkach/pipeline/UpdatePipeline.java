@@ -1,6 +1,6 @@
 package io.github.wolches.tgbot.alkach.pipeline;
 
-import io.github.wolches.tgbot.alkach.pipeline.ctx.UpdateContext;
+import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
 import io.github.wolches.tgbot.alkach.pipeline.pipe.Pipeline;
 import io.github.wolches.tgbot.alkach.pipeline.pipe.PipelineBuilder;
 import io.github.wolches.tgbot.alkach.pipeline.step.*;

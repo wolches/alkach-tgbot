@@ -1,6 +1,6 @@
 package io.github.wolches.tgbot.alkach.pipeline.step;
 
-import io.github.wolches.tgbot.alkach.pipeline.ctx.UpdateContext;
+import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.handlers.message.command.CommandHandler;
 import lombok.RequiredArgsConstructor;
