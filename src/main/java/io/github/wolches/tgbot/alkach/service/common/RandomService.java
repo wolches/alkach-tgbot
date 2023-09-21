@@ -1,6 +1,5 @@
-package io.github.wolches.tgbot.alkach.util;
+package io.github.wolches.tgbot.alkach.service.common;
 
-import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 

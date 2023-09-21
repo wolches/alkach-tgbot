@@ -1,12 +1,12 @@
-package io.github.wolches.tgbot.alkach.service.message.command;
+package io.github.wolches.tgbot.alkach.handlers.message.command;
 
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.Chat;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.ship.ChatShippering;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.ship.ChatUserShippering;
 import io.github.wolches.tgbot.alkach.domain.persistence.ShipperingDao;
-import io.github.wolches.tgbot.alkach.util.RandomService;
-import io.github.wolches.tgbot.alkach.util.TextService;
+import io.github.wolches.tgbot.alkach.service.common.RandomService;
+import io.github.wolches.tgbot.alkach.service.common.TextService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ShipCommandService implements CommandProcessingService {
+public class ShipCommandHandler implements CommandHandler {
 
     private static final String SHIP_COMMAND = "/ship";
     private static final String SHIP_TEXT_CHOOSING =
@@ -33,7 +33,7 @@ public class ShipCommandService implements CommandProcessingService {
     private final TextService textService;
 
     @Override
-    public String processMessageInternal(Message message, Chat chat, ChatUser user) {
+    public String handle(Message message, Chat chat, ChatUser user) {
         return shipperingDao
                 .findLastChatShippering(chat)
                 .map(csh -> csh.getShipperedAt().plusDays(1).isAfter(OffsetDateTime.now()) ? csh : null)

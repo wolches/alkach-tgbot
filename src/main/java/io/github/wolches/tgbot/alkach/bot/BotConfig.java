@@ -1,6 +1,6 @@
 package io.github.wolches.tgbot.alkach.bot;
 
-import io.github.wolches.tgbot.alkach.service.UpdateController;
+import io.github.wolches.tgbot.alkach.pipeline.UpdatePipeline;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "alkach.bot")
 public class BotConfig {
 
-    private final UpdateController updateController;
+    private final UpdatePipeline updatePipeline;
     private final BotProxyService botService;
 
     private String token;
@@ -21,6 +21,6 @@ public class BotConfig {
 
     @Bean
     public BotInstance botInstance() {
-        return new BotInstance(updateController, botService, token, name);
+        return new BotInstance(updatePipeline, botService, token, name);
     }
 }

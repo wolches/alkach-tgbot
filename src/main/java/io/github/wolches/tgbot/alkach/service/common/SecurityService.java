@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.util;
+package io.github.wolches.tgbot.alkach.service.common;
 
 import org.springframework.stereotype.Service;
 

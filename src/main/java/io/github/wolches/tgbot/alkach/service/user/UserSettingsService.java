@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.common;
+package io.github.wolches.tgbot.alkach.service.user;
 
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUserSettings;

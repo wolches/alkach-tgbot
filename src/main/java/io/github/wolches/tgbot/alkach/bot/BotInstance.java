@@ -1,9 +1,8 @@
 package io.github.wolches.tgbot.alkach.bot;
 
 
-import io.github.wolches.tgbot.alkach.service.UpdateController;
+import io.github.wolches.tgbot.alkach.pipeline.UpdatePipeline;
 import io.github.wolches.tgbot.alkach.domain.dto.ReplyMessageDto;
-import io.github.wolches.tgbot.alkach.domain.dto.UpdateProcessingResultDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
@@ -27,7 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BotInstance extends TelegramLongPollingBot {
 
-    private final UpdateController updateController;
+    private final UpdatePipeline updatePipeline;
     private final BotProxyService botService;
 
     protected final String botToken;
@@ -42,8 +40,7 @@ public class BotInstance extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        Optional<UpdateProcessingResultDto> result = updateController.processUpdate(update);
-        result.ifPresent(r -> replyTextMessage(r.getMessageProcessingResultDto()));
+        updatePipeline.processUpdate(update);
     }
 
     private void replyTextMessage(Optional<ReplyMessageDto> reply) {
@@ -71,16 +68,5 @@ public class BotInstance extends TelegramLongPollingBot {
     }
 
     private void sendMessage(String chatId, Integer replyMessageId, String text) {
-        try {
-            SendMessage msg = new SendMessage();
-            msg.setChatId(chatId);
-            msg.setParseMode("Markdown");
-            msg.setReplyToMessageId(replyMessageId);
-            msg.setText(text);
-            execute(msg);
-        } catch (TelegramApiException e) {
-            log.error("Error sending message", e);
-            e.printStackTrace();
-        }
     }
 }

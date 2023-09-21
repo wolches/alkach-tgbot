@@ -1,11 +1,11 @@
-package io.github.wolches.tgbot.alkach.service.message.command;
+package io.github.wolches.tgbot.alkach.handlers.message.command;
 
 import io.github.wolches.tgbot.alkach.bot.contract.BotApi;
 import io.github.wolches.tgbot.alkach.bot.contract.BotRelying;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.Chat;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.persistence.repo.ChatUserRepository;
-import io.github.wolches.tgbot.alkach.util.TextService;
+import io.github.wolches.tgbot.alkach.service.common.TextService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ClearUsersCommandService implements CommandProcessingService, BotRelying {
+public class ClearUsersCommandHandler implements CommandHandler, BotRelying {
 
     private static final String CLEAR_COMMAND = "/update_chat_users";
     private static final String CLEAR_TEXT =    "Данные о пользователях чата обновлены! \r\n" +
@@ -37,7 +37,7 @@ public class ClearUsersCommandService implements CommandProcessingService, BotRe
 
     @Override
     @SneakyThrows
-    public String processMessageInternal(Message message, Chat chat, ChatUser user) { // TODO: Fix & Refactor & Rewrite
+    public String handle(Message message, Chat chat, ChatUser user) { // TODO: Fix & Refactor & Rewrite
         if (bot.isChatUserAdmin(user)) {
             List<ChatUser> usersToClear = getChatUsersToClear(chat);
             usersToClear.forEach(cu -> cu.setActive(false));

@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.service.message.command;
+package io.github.wolches.tgbot.alkach.handlers.message.command;
 
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.Chat;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
@@ -10,14 +10,14 @@ import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
-public class PingCommandService implements CommandProcessingService {
+public class PingCommandHandler implements CommandHandler {
 
     private static final String PING_COMMAND = "/ping";
     private static final String PING_TEXT = "Not very accurate ping: %d second(s).";
 
     @Override
-    public String processMessageInternal(Message message, Chat chat, ChatUser user) {
-        long ping = Instant.now().getEpochSecond() - message.getDate();
+    public String handle(Message message, Chat chat, ChatUser user) {
+        long ping = Instant.now().toEpochMilli() - (message.getDate() * 1000);
         return String.format(PING_TEXT, ping);
     }
 

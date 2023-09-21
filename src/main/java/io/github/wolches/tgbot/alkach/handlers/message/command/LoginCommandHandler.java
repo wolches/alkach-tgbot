@@ -1,11 +1,11 @@
-package io.github.wolches.tgbot.alkach.service.message.command;
+package io.github.wolches.tgbot.alkach.handlers.message.command;
 
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.Chat;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.user.UserSettings;
 import io.github.wolches.tgbot.alkach.domain.persistence.repo.UserSettingsRepository;
-import io.github.wolches.tgbot.alkach.util.SecurityService;
-import io.github.wolches.tgbot.alkach.util.TextService;
+import io.github.wolches.tgbot.alkach.service.common.SecurityService;
+import io.github.wolches.tgbot.alkach.service.common.TextService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LoginCommandService implements CommandProcessingService {
+public class LoginCommandHandler implements CommandHandler {
 
     private static final String LOGIN_COMMAND             = "/login";
     private static final String RESTRICTED_AT_GROUP_CHAT  = "Login is restricted at group chats!";
@@ -30,7 +30,7 @@ public class LoginCommandService implements CommandProcessingService {
     private final UserSettingsRepository settingsRepository;
 
     @Override
-    public String processMessageInternal(Message message, Chat chat, ChatUser user) {
+    public String handle(Message message, Chat chat, ChatUser user) {
         try {
             String[] commandArguments = textService.getCommandArguments(LOGIN_COMMAND, message.getText());
             if (!isPrivateChat(chat)) return RESTRICTED_AT_GROUP_CHAT;

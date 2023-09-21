@@ -17,14 +17,12 @@ public class Pipeline<I, C extends Context> {
     private final LinkedList<Step<C>> nextSteps;
     private final LinkedList<Step<C>> pastSteps = new LinkedList<>();
 
-    private C context;
-
     public void run(I input) {
-        context = contextInit.apply(input);
+        C context = contextInit.apply(input);
         try {
             for (int i = 0; i < nextSteps.size(); i++) {
                 Step<C> step = nextSteps.pop();
-                processStep(step);
+                processStep(step, context);
                 pastSteps.push(step);
             }
         } catch (Throwable e) {
@@ -42,7 +40,7 @@ public class Pipeline<I, C extends Context> {
         }
     }
 
-    private void processStep(Step<C> step) {
+    private void processStep(Step<C> step, C context) {
         try {
             step.accept(context);
         } catch (Throwable e) {
