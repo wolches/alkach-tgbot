@@ -9,12 +9,15 @@ import io.github.wolches.tgbot.alkach.pipeline.pipe.Pipeline;
 import io.github.wolches.tgbot.alkach.pipeline.pipe.PipelineBuilder;
 import io.github.wolches.tgbot.alkach.pipeline.step.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.annotation.PostConstruct;
 
-@Controller
+@Slf4j
+@Service
 @RequiredArgsConstructor
 public class UpdatePipeline {
 
@@ -29,6 +32,7 @@ public class UpdatePipeline {
 
     @PostConstruct
     public void buildPipeline() {
+        log.info("#buildPipeline(): Building update processing pipeline");
         pipeline = PipelineBuilder
                 .start((Update upd) -> new UpdateContext(upd))
                 .ifExp(UpdateContext::hasMessage)
@@ -56,9 +60,11 @@ public class UpdatePipeline {
                         .build()))
                 .build()
                 .build();
+        log.info("#buildPipeline(): Successfully built update processing pipeline");
     }
 
     public void processUpdate(Update update) {
+        log.info("#processUpdate({}): Running the update pipeline", update.getUpdateId());
         pipeline.run(update);
     }
 }

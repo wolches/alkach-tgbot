@@ -40,6 +40,7 @@ public class BotInstance extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        log.info("#onUpdateReceived({}): Recieved update", update.getUpdateId());
         updatePipeline.processUpdate(update);
     }
 

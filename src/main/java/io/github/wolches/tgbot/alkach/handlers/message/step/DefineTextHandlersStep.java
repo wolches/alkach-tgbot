@@ -1,16 +1,19 @@
 package io.github.wolches.tgbot.alkach.handlers.message.step;
 
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
+import io.github.wolches.tgbot.alkach.handlers.message.command.CommandHandler;
 import io.github.wolches.tgbot.alkach.handlers.message.text.TextMessageHandler;
 import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
 import io.github.wolches.tgbot.alkach.pipeline.step.Step;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class DefineTextHandlersStep implements Step<UpdateContext> {
 
@@ -22,6 +25,8 @@ public class DefineTextHandlersStep implements Step<UpdateContext> {
                 .stream()
                 .filter(handler -> handler.isApplicable(context.getUpdate().getMessage(), chatUser.getChat(), chatUser))
                 .collect(Collectors.toList());
+        Object[] handlersNames = handlers.stream().map((TextMessageHandler ch) -> ch.getClass().getName()).collect(Collectors.toList()).toArray();
+        log.debug("#accept({}): Found applicable handlers {}", context.getUpdate().getUpdateId(), handlersNames);
         context.add("text_msg_handlers", handlers);
     }
 

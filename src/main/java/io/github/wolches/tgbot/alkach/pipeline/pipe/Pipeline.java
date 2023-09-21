@@ -40,9 +40,10 @@ public class Pipeline<I, C extends Context> {
 
     private void processStep(Step<C> step, C context) {
         try {
+            log.debug("#processStep({}, {}): processing step {}", step.getClass().getName(), context.getClass().getName(), step);
             step.accept(context);
         } catch (Throwable e) {
-            log.error("An error has occured when {} step execution in pipeline {}", step.getClass(), this.getClass(), e);
+            log.error("An error has occured when {} step execution in pipeline {}", step.getClass().getName(), this.getClass().getName(), e);
             step.reject(context);
             throw e;
         }
