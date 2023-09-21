@@ -1,5 +1,6 @@
 package io.github.wolches.tgbot.alkach.authorization;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Aspect
 @Component
 public class AuthorizationAspect {
@@ -25,8 +27,10 @@ public class AuthorizationAspect {
 
                 Class<PartialBotApiMethod> clazz = (Class<PartialBotApiMethod>) arg.getClass();
                 Integer count = types.get(clazz);
-                if (count != null && count > 0) {
-                    throw new IllegalAccessException("Restricted bot API method");
+                if (count == null || count <= 0) {
+                    IllegalAccessException e = new IllegalAccessException("Restricted bot API method");
+                    log.error("Authorization error sendind Telegram API command {}", arg.getClass(), e);
+                    throw e;
                 }
 
                 count -= 1;
