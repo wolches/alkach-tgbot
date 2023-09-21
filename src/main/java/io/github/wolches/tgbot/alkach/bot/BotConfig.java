@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class BotConfig {
 
     private final UpdateController updateController;
-    private final BotService botService;
+    private final BotProxyService botService;
 
     private String token;
     private String name;

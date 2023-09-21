@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class BotInstance extends TelegramLongPollingBot {
 
     private final UpdateController updateController;
-    private final BotService botService;
+    private final BotProxyService botService;
 
     protected final String botToken;
     protected final String botUsername;

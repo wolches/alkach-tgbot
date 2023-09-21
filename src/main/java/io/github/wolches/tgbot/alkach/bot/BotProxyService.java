@@ -1,13 +1,11 @@
 package io.github.wolches.tgbot.alkach.bot;
 
 import io.github.wolches.tgbot.alkach.authorization.AuthorizationRequired;
-import io.github.wolches.tgbot.alkach.bot.BotInstance;
+import io.github.wolches.tgbot.alkach.bot.contract.BotApi;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import org.hibernate.cfg.NotYetImplementedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
@@ -29,7 +27,7 @@ import java.util.concurrent.CompletableFuture;
 
 @AuthorizationRequired
 @Component
-public class BotService extends AbsSender {
+public class BotProxyService extends AbsSender implements BotApi {
 
     private BotInstance bot;
 
