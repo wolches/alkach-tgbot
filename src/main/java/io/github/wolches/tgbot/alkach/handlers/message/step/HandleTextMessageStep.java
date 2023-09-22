@@ -8,6 +8,7 @@ import io.github.wolches.tgbot.alkach.pipeline.step.Step;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class HandleTextMessageStep implements Step<UpdateContext> {
@@ -16,9 +17,10 @@ public class HandleTextMessageStep implements Step<UpdateContext> {
     public void accept(UpdateContext context) {
         List<TextMessageHandler> textMessageHandlers = context.get("text_msg_handlers", List.class);
         ChatUser chatUser = context.get("msg_chat_user", ChatUser.class);
-        textMessageHandlers.stream()
+        List<String> responses = textMessageHandlers.stream()
                 .map(ch -> ch.handle(context.getMessage(), chatUser.getChat(), chatUser))
-                .forEach(txt -> context.add("reply_text", txt));
+                .collect(Collectors.toList());
+        context.add("reply_text", responses);
     }
 
     @Override

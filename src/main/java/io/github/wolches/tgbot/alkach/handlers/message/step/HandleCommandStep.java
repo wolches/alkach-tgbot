@@ -7,6 +7,7 @@ import io.github.wolches.tgbot.alkach.pipeline.step.Step;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class HandleCommandStep implements Step<UpdateContext> {
@@ -15,9 +16,10 @@ public class HandleCommandStep implements Step<UpdateContext> {
     public void accept(UpdateContext context) {
         List<CommandHandler> commandHandlers = context.get("command_handlers", List.class);
         ChatUser chatUser = context.get("msg_chat_user", ChatUser.class);
-        commandHandlers.stream()
+        List<String> responses = commandHandlers.stream()
                 .map(ch -> ch.handle(context.getMessage(), chatUser.getChat(), chatUser))
-                .forEach(txt -> context.add("reply_text", txt));
+                .collect(Collectors.toList());
+        context.add("reply_text", responses);
     }
 
     @Override

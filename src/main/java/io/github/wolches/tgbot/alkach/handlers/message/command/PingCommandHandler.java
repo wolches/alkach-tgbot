@@ -17,7 +17,7 @@ public class PingCommandHandler implements CommandHandler {
 
     @Override
     public String handle(Message message, Chat chat, ChatUser user) {
-        long ping = Instant.now().toEpochMilli() - (message.getDate() * 1000);
+        long ping = Instant.now().getEpochSecond() - message.getDate();
         return String.format(PING_TEXT, ping);
     }
 
