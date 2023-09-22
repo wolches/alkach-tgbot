@@ -16,6 +16,7 @@ public class SendResponseStep implements Step<UpdateContext> {
 
     private final BotProxyService botService;
 
+    // TODO: ReplyMessageDto usage
     @Override
     public void accept(UpdateContext context) {
         try {

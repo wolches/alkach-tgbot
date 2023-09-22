@@ -3,9 +3,11 @@ package io.github.wolches.tgbot.alkach.pipeline.step;
 import io.github.wolches.tgbot.alkach.pipeline.context.Context;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Predicate;
 
+@Slf4j
 @RequiredArgsConstructor
 public class IfStep<C extends Context> implements Step<C> {
 
@@ -19,6 +21,8 @@ public class IfStep<C extends Context> implements Step<C> {
     @Override
     public void accept(C context) {
         boolean result = expression.test(context);
+        log.debug("#accept({}): Performing ifStep, expression evaluated into {} from context\n{}",
+                  context.getClass().getSimpleName(), result, context);
         if (result) {
             ifTrueStep.accept(context);
         } else if (hasElse()) {

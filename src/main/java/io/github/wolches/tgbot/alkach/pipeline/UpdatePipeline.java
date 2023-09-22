@@ -12,9 +12,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -64,7 +66,10 @@ public class UpdatePipeline {
     }
 
     public void processUpdate(Update update) {
-        log.info("#processUpdate({}): Running the update pipeline", update.getUpdateId());
+        Optional<String> user = Optional.ofNullable(update.getMessage())
+                .map(Message::getFrom)
+                .map(u -> u.getId() + ":" + u.getUserName());
+        log.info("#processUpdate({}): Running the update pipeline, user: [{}]", update.getUpdateId(), user.orElse("N/A"));
         pipeline.run(update);
     }
 }
