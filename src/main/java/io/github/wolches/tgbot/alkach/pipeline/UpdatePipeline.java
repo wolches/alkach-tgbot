@@ -67,9 +67,13 @@ public class UpdatePipeline {
 
     public void processUpdate(Update update) {
         Optional<String> user = Optional.ofNullable(update.getMessage())
-                .map(Message::getFrom)
-                .map(u -> u.getId() + ":" + u.getUserName());
+                    .map(Message::getFrom)
+                    .map(u -> u.getId() + ":" + u.getUserName());
         log.info("#processUpdate({}): Running the update pipeline, user: [{}]", update.getUpdateId(), user.orElse("N/A"));
-        pipeline.run(update);
+        try {
+            pipeline.run(update);
+        } catch (Throwable e) {
+            log.error("#processUpdate({}): An error has occurred during pipeline execution", update.getUpdateId(), e);
+        }
     }
 }
