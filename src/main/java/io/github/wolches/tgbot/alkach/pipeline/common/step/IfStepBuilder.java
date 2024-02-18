@@ -1,7 +1,7 @@
-package io.github.wolches.tgbot.alkach.pipeline.step;
+package io.github.wolches.tgbot.alkach.pipeline.common.step;
 
-import io.github.wolches.tgbot.alkach.pipeline.context.Context;
-import io.github.wolches.tgbot.alkach.pipeline.pipe.PipelineBuilder;
+import io.github.wolches.tgbot.alkach.pipeline.common.context.Context;
+import io.github.wolches.tgbot.alkach.pipeline.common.pipe.PipelineBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

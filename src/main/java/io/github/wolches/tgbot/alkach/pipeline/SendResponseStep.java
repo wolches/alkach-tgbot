@@ -1,7 +1,7 @@
-package io.github.wolches.tgbot.alkach.pipeline.step;
+package io.github.wolches.tgbot.alkach.pipeline;
 
 import io.github.wolches.tgbot.alkach.bot.BotProxyService;
-import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
+import io.github.wolches.tgbot.alkach.pipeline.common.step.Step;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

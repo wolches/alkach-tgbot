@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-//@AuthorizationRequired
 @Component
 public class BotProxyService extends AbsSender {
 

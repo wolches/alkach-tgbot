@@ -1,4 +1,4 @@
-package io.github.wolches.tgbot.alkach.pipeline.context;
+package io.github.wolches.tgbot.alkach.pipeline.common.context;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

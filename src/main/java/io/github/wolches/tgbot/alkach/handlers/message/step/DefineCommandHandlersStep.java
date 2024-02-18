@@ -1,9 +1,9 @@
 package io.github.wolches.tgbot.alkach.handlers.message.step;
 
-import io.github.wolches.tgbot.alkach.pipeline.context.UpdateContext;
+import io.github.wolches.tgbot.alkach.pipeline.UpdateContext;
 import io.github.wolches.tgbot.alkach.domain.persistence.model.chat.ChatUser;
 import io.github.wolches.tgbot.alkach.handlers.message.command.CommandHandler;
-import io.github.wolches.tgbot.alkach.pipeline.step.Step;
+import io.github.wolches.tgbot.alkach.pipeline.common.step.Step;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

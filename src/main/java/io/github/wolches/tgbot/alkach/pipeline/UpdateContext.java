@@ -1,5 +1,6 @@
-package io.github.wolches.tgbot.alkach.pipeline.context;
+package io.github.wolches.tgbot.alkach.pipeline;
 
+import io.github.wolches.tgbot.alkach.pipeline.common.context.AbstractContext;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -27,6 +28,10 @@ public class UpdateContext extends AbstractContext {
 
     public boolean isCommand() {
         return update.getMessage().getText().startsWith("/");
+    }
+
+    public boolean hasCallbackQuery() {
+        return update.hasCallbackQuery();
     }
 
 }

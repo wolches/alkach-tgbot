@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -38,7 +39,7 @@ public class CmdCommandHandler implements CommandHandler {
                 exec.addAll(Arrays.asList(CMD));
                 exec.addAll(Arrays.asList(commandArguments));
                 Process process = processService.createProcess(exec);
-                return String.format(EXECUTION_RESULT_MESSAGE, processService.getExecutionResult(process));
+                return String.format(EXECUTION_RESULT_MESSAGE, processService.getExecutionResult(process, Charset.forName("Windows-1251")));
             } else {
                 return OPERATION_NOT_PERMITTED_MESSAGE;
             }

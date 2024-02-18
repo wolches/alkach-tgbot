@@ -1,6 +1,6 @@
-package io.github.wolches.tgbot.alkach.pipeline.step;
+package io.github.wolches.tgbot.alkach.pipeline.common.step;
 
-import io.github.wolches.tgbot.alkach.pipeline.context.Context;
+import io.github.wolches.tgbot.alkach.pipeline.common.context.Context;
 
 public class ThrowExceptionStep<C extends Context> implements Step<C> {
 

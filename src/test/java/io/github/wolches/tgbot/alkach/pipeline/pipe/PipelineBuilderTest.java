@@ -1,7 +1,9 @@
 package io.github.wolches.tgbot.alkach.pipeline.pipe;
 
+import io.github.wolches.tgbot.alkach.pipeline.common.pipe.Pipeline;
+import io.github.wolches.tgbot.alkach.pipeline.common.pipe.PipelineBuilder;
 import io.github.wolches.tgbot.alkach.pipeline.context.TestContext;
-import io.github.wolches.tgbot.alkach.pipeline.step.Step;
+import io.github.wolches.tgbot.alkach.pipeline.common.step.Step;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

@@ -1,25 +1,29 @@
-package io.github.wolches.tgbot.alkach.pipeline.pipe;
+package io.github.wolches.tgbot.alkach.pipeline.common.pipe;
 
-import io.github.wolches.tgbot.alkach.pipeline.step.Step;
-import io.github.wolches.tgbot.alkach.pipeline.context.Context;
+import io.github.wolches.tgbot.alkach.pipeline.common.context.Context;
+import io.github.wolches.tgbot.alkach.pipeline.common.step.Step;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Pipeline has no state
+ * @param <I> Input
+ * @param <C> Context
+ */
 @RequiredArgsConstructor
 @Slf4j
 public class Pipeline<I, C extends Context> {
 
-    // TODO: Identifier field for pipeline
+    private final String id;
     private final Function<I, C> contextInit;
     private final LinkedList<Step<C>> nextSteps;
     private final LinkedList<Step<C>> pastSteps = new LinkedList<>();
 
     public void run(I input) {
-        log.info("#run({}): {} steps next", input.getClass().getSimpleName(), nextSteps.size());
+        log.info("#run {} ({}): {} steps next", id, input.getClass().getSimpleName(), nextSteps.size());
         C context = contextInit.apply(input);
         try {
             // TODO Refactor this somehow, mb iterator?
